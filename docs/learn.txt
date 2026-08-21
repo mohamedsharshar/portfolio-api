@@ -1,0 +1,14 @@
+node -v
+npm -v
+npm init -y
+npm install express
+node app.js
+
+npm install --save-dev nodemon
+
+npm run dev
+
+npm create vite@latest frontend -- --template react
+cd frontend
+npm install
+npm run dev
