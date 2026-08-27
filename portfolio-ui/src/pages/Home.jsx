@@ -1,16 +1,46 @@
+import { useState } from 'react';
 import GameScene from '../components/GameScene';
+import QuestPanel from '../components/QuestPanel';
+import HUD from '../components/HUD';
+import MiniMap from '../components/MiniMap';
+import LoadingScreen from '../components/LoadingScreen';
+import VirtualJoystick from '../components/VirtualJoystick';
 
 const Home = () => {
+  const [loaded, setLoaded] = useState(false);
+
   return (
-    <div className="m-0 p-0 overflow-hidden bg-black">
-      {/* هنا بنعرض عالم الـ 3D بالكامل */}
+    <div className="m-0 p-0 overflow-hidden bg-black relative w-screen h-screen">
+      {/* Loading Screen */}
+      <LoadingScreen onComplete={() => setLoaded(true)} />
+
+      {/* 3D World */}
       <GameScene />
-      
-      {/* دي طبقة UI شفافة فوق اللعبة عشان نكتب فيها اسمك أو تعليمات */}
-      <div className="absolute top-5 left-5 text-white z-10 pointer-events-none drop-shadow-md">
-        <h1 className="text-3xl font-bold">Mohamed SharShar</h1>
-        <p className="text-sm text-gray-300 mt-2">Use the mouse to move the camera</p>
-      </div>
+
+      {/* HUD Overlays */}
+      <HUD />
+      <MiniMap />
+
+      {/* Quest Panel */}
+      <QuestPanel />
+
+      {/* Mobile Controls */}
+      <VirtualJoystick />
+
+      {/* Skip to text version — always accessible */}
+      <a
+        href="/text"
+        className="absolute bottom-5 left-5 z-10 text-[10px] uppercase tracking-widest transition-opacity hover:opacity-100"
+        style={{
+          color: 'rgba(200,160,80,0.35)',
+          fontFamily: '"Georgia", serif',
+          textDecoration: 'none',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(200,160,80,0.8)')}
+        onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(200,160,80,0.35)')}
+      >
+        📜 Text Version
+      </a>
     </div>
   );
 };
