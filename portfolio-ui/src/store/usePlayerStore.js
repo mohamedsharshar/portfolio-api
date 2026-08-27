@@ -43,4 +43,8 @@ export const usePlayerStore = create((set, get) => ({
 
   currentTerrain: 'grass', // 'grass' | 'stone' | 'wood'
   setCurrentTerrain: (terrain) => set({ currentTerrain: terrain }),
+
+  // Interaction state
+  interactMode: false,
+  setInteractMode: (mode) => set({ interactMode: mode }),
 }));

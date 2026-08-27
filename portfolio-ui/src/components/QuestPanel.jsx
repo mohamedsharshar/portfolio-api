@@ -262,9 +262,9 @@ const QuestPanel = () => {
     setActiveQuest(null);
   };
 
-  // Close on Escape key
+  // Close on Escape or Q key
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') handleClose(); };
+    const onKey = (e) => { if (e.key === 'Escape' || e.key === 'q' || e.key === 'Q') handleClose(); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [activeQuest]);

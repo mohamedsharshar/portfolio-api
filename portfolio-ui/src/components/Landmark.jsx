@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { RigidBody, CuboidCollider } from '@react-three/rapier';
+import { RigidBody } from '@react-three/rapier';
 import { usePlayerStore } from '../store/usePlayerStore';
 
 const TRIGGER_DISTANCE = 5;
@@ -384,8 +384,12 @@ const Landmark = ({ project }) => {
 
   return (
     <group position={project.position}>
+      {/* Invisible physics blocker — stops player walking through landmark */}
       <RigidBody type="fixed" colliders="cuboid">
-        <CuboidCollider args={[1.5, 3, 1.5]} position={[0, 1.5, 0]} />
+        <mesh visible={false} position={[0, 1.5, 0]}>
+          <boxGeometry args={[2, 3, 2]} />
+          <meshStandardMaterial />
+        </mesh>
       </RigidBody>
 
       {/* The 3D landmark geometry */}
@@ -408,8 +412,8 @@ const Landmark = ({ project }) => {
         decay={2}
       />
 
-      {/* Torch/fire emitter for warm-themed landmarks */}
-      {(project.theme === 'warm') && (
+      {/* Warm landmarks get a fire glow */}
+      {project.theme === 'warm' && (
         <pointLight
           position={[0, 1.5, 0]}
           color="#ff8844"

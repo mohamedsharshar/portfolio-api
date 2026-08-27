@@ -17,7 +17,7 @@ const PlayerTracker = ({ ecctrlRef }) => {
     if (!ecctrlRef.current) return;
 
     try {
-      const pos = ecctrlRef.current.translation();
+      const pos = ecctrlRef.current.currPos;
       if (!pos) return;
 
       const newPos = [pos.x, pos.y, pos.z];
