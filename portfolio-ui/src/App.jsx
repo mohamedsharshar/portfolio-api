@@ -255,6 +255,48 @@ const SceneElements = () => {
 };
 
 // ==========================================
+// GlowCard Component (Mouse Tracking Border Glow)
+// ==========================================
+const GlowCard = ({ children, className, glowColor = '99, 102, 241' }) => {
+  const cardRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    cardRef.current.style.setProperty('--glow-x', `${x}px`);
+    cardRef.current.style.setProperty('--glow-y', `${y}px`);
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      className={`relative group ${className}`}
+      style={{
+        '--glow-color': glowColor,
+        '--glow-radius': '300px'
+      }}
+    >
+      <div className="absolute inset-0 z-0 pointer-events-none rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(var(--glow-radius)_circle_at_var(--glow-x)_var(--glow-y),rgba(var(--glow-color),0.08)_0%,transparent_50%)]" />
+      
+      <div className="absolute inset-0 z-10 pointer-events-none rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-500
+        before:absolute before:inset-0 before:p-[2px] before:rounded-[inherit]
+        before:bg-[radial-gradient(var(--glow-radius)_circle_at_var(--glow-x)_var(--glow-y),rgba(var(--glow-color),1)_0%,rgba(var(--glow-color),0.2)_30%,transparent_60%)]
+        before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
+        before:[-webkit-mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
+        before:[mask-composite:exclude] before:[-webkit-mask-composite:xor]"
+      />
+      
+      <div className="relative z-20 h-full">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
 // HTML Overlay Content
 // ==========================================
 const HTMLContent = () => {
@@ -296,7 +338,7 @@ const HTMLContent = () => {
 
       {/* 2. Experience Section */}
       <section className="h-screen w-full flex items-center justify-start px-8 md:px-32">
-        <div className="max-w-2xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
+        <GlowCard glowColor="99, 102, 241" className="max-w-2xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
           <h2 className="text-3xl md:text-4xl font-bold mb-10 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
             class <span className="text-white">Experience</span> {'{'}
           </h2>
@@ -314,12 +356,12 @@ const HTMLContent = () => {
           <h2 className="text-3xl md:text-4xl font-bold mt-6 font-mono text-gray-600">
             {'}'}
           </h2>
-        </div>
+        </GlowCard>
       </section>
 
       {/* 3. Skills & Languages Section */}
       <section className="h-screen w-full flex flex-col justify-center items-end px-8 md:px-32">
-        <div className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
+        <GlowCard glowColor="20, 184, 166" className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 font-mono text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-500 text-right">
             &lt;CoreSkills /&gt;
           </h2>
@@ -341,13 +383,13 @@ const HTMLContent = () => {
               <span className="text-lg">🇺🇸</span> <span className="text-gray-300">English (B2)</span>
             </div>
           </div>
-        </div>
+        </GlowCard>
       </section>
 
       {/* 4. Projects */}
       {PROJECTS.map((project, idx) => (
         <section key={project.name} className={`h-screen w-full flex items-center ${idx % 2 === 0 ? 'justify-start pl-8 md:pl-32' : 'justify-end pr-8 md:pr-32'}`}>
-          <div className="max-w-xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all hover:scale-[1.02] duration-500 group hover:border-indigo-500/50">
+          <GlowCard glowColor="244, 63, 94" className="max-w-xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-transform hover:scale-[1.02] duration-500">
             <div className="text-indigo-400 font-mono text-sm mb-3 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
               0{idx + 1} // EXECUTE
@@ -366,13 +408,13 @@ const HTMLContent = () => {
                 </span>
               ))}
             </div>
-          </div>
+          </GlowCard>
         </section>
       ))}
 
       {/* 5. Contact Section */}
       <section className="h-screen w-full flex flex-col items-center justify-center px-6 text-center">
-        <div className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-10 md:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
+        <GlowCard glowColor="59, 130, 246" className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-10 md:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
           <h2 className="text-4xl md:text-6xl font-bold mb-6 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 drop-shadow-lg">
             Initialize.Contact()
           </h2>
@@ -391,7 +433,7 @@ const HTMLContent = () => {
               LinkedIn.Connect()
             </a>
           </div>
-        </div>
+        </GlowCard>
       </section>
 
     </div>
