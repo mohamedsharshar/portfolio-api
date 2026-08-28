@@ -1,22 +1,39 @@
-import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
-import Stack from './Stack';
+import React, { useState } from "react";
+import { createPortal } from "react-dom";
+import Stack from "./Stack";
 
 const CERTS = [
-  "certificate_page-0001.jpg", "img103.jpg", "img110.jpg", "img117.jpg", "img124.jpg", "img131.jpg", 
-  "img138.jpg", "img145.jpg", "img152.jpg", "img159.jpg", "img170.jpg", "img177.jpg", "img184.jpg", 
-  "img191.jpg", "img227.jpg", "img236.jpg", "img243.jpg", "img96.jpg", "mhara_tech_page-0001.jpg", 
-  "oracle.png", "python_tech_page-0001.jpg"
+  "certificate_page-0001.jpg",
+  "img103.jpg",
+  "img110.jpg",
+  "img117.jpg",
+  "img124.jpg",
+  "img131.jpg",
+  "img138.jpg",
+  "img145.jpg",
+  "img152.jpg",
+  "img159.jpg",
+  "img170.jpg",
+  "img177.jpg",
+  "img184.jpg",
+  "img191.jpg",
+  "img227.jpg",
+  "img236.jpg",
+  "img243.jpg",
+  "img96.jpg",
+  "mhara_tech_page-0001.jpg",
+  "oracle.png",
+  "python_tech_page-0001.jpg",
 ];
 
 export default function CertificatesGallery() {
   const [selectedCert, setSelectedCert] = useState(null);
 
   const cards = CERTS.map((cert, index) => (
-    <img 
-      key={index} 
-      src={`/certifications/${cert}`} 
-      alt={`Certificate ${index}`} 
+    <img
+      key={index}
+      src={`/certifications/${cert}`}
+      alt={`Certificate ${index}`}
       className="w-full h-full object-cover rounded-xl"
       draggable={false}
     />
@@ -50,30 +67,44 @@ export default function CertificatesGallery() {
       </div>
 
       {/* Modal using createPortal to break out of all transform/overflow bounds */}
-      {selectedCert && typeof document !== 'undefined' && createPortal(
-        <div 
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 md:p-8 backdrop-blur-md transition-all"
-          onClick={() => setSelectedCert(null)}
-        >
-          <div 
-            className="relative max-w-5xl max-h-[90vh] flex flex-col items-center justify-center" 
-            onClick={(e) => e.stopPropagation()}
+      {selectedCert &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 md:p-8 backdrop-blur-md transition-all"
+            onClick={() => setSelectedCert(null)}
           >
-            <button 
-              className="absolute -top-14 right-0 text-white hover:text-teal-400 transition-colors p-2 bg-black/50 rounded-full border border-gray-700"
-              onClick={() => setSelectedCert(null)}
+            <div
+              className="relative max-w-5xl max-h-[90vh] flex flex-col items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <img 
-              src={`/certifications/${selectedCert}`} 
-              alt="Selected Certificate" 
-              className="max-w-full max-h-[85vh] object-contain rounded-lg border-2 border-indigo-500/50 shadow-[0_0_50px_rgba(99,102,241,0.4)]"
-            />
-          </div>
-        </div>,
-        document.body
-      )}
+              <button
+                className="absolute -top-14 right-0 text-white hover:text-teal-400 transition-colors p-2 bg-black/50 rounded-full border border-gray-700"
+                onClick={() => setSelectedCert(null)}
+              >
+                <svg
+                  className="w-8 h-8"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+              <img
+                src={`/certifications/${selectedCert}`}
+                alt="Selected Certificate"
+                className="max-w-full max-h-[85vh] object-contain rounded-lg border-2 border-indigo-500/50 shadow-[0_0_50px_rgba(99,102,241,0.4)]"
+              />
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

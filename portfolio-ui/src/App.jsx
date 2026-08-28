@@ -440,25 +440,57 @@ const HTMLContent = () => {
       </section>
 
       {/* 5. Contact Section */}
-      <section className="h-screen w-full flex flex-col items-center justify-center px-6 text-center">
-        <GlowCard glowColor="59, 130, 246" className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-10 md:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 drop-shadow-lg">
-            Initialize.Contact()
-          </h2>
-          <p className="text-gray-400 text-base md:text-lg mb-12 font-mono">
-            &gt; Open to collaboration, freelance work, and full-time opportunities. <br/> 
-            &gt; Whether you have a project in mind or just want to talk code — my terminal is ready. <span className="animate-pulse text-indigo-400">_</span>
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a href="mailto:mohamedsharshar624@gmail.com" className="px-8 py-4 bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400 rounded-xl font-mono text-sm font-bold text-white transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(79,70,229,0.3)]">
-              execute(Email)
-            </a>
-            <a href="https://github.com/mohamedsharshaar" target="_blank" rel="noreferrer" className="px-8 py-4 bg-gray-900/90 hover:bg-gray-800 border border-gray-600 rounded-xl font-mono text-sm font-bold text-white transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(31,41,55,0.3)]">
-              GitHub.Repo
-            </a>
-            <a href="https://linkedin.com/in/mohamedsharshaar" target="_blank" rel="noreferrer" className="px-8 py-4 bg-[#0a66c2]/90 hover:bg-[#004182] border border-[#0a66c2] rounded-xl font-mono text-sm font-bold text-white transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(10,102,194,0.3)]">
-              LinkedIn.Connect()
-            </a>
+      <section className="h-screen w-full flex flex-col items-center justify-center px-4 md:px-8">
+        <GlowCard glowColor="59, 130, 246" className="w-full max-w-[95%] xl:max-w-[85rem] bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-14 lg:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 md:gap-16">
+            {/* Left Info Side */}
+            <div className="flex flex-col justify-center text-left min-w-0">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 drop-shadow-lg break-all">
+                Initialize.Contact()
+              </h2>
+              <p className="text-gray-400 text-sm md:text-base lg:text-lg mb-8 font-mono leading-relaxed">
+                &gt; Open to collaboration, freelance work, and full-time opportunities. <br/> 
+                &gt; Whether you have a project in mind or just want to talk code — my terminal is ready. <span className="animate-pulse text-indigo-400">_</span>
+              </p>
+              
+              <div className="flex flex-col gap-4 mt-auto">
+                <a href="mailto:mohamedsharshar624@gmail.com" className="flex items-center justify-center gap-3 px-6 py-4 bg-indigo-600/20 hover:bg-indigo-600/40 border border-indigo-500/50 rounded-xl font-mono text-sm font-bold text-white transition-all shadow-[0_0_15px_rgba(79,70,229,0.2)] hover:shadow-[0_0_25px_rgba(79,70,229,0.4)]">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                  execute(Email)
+                </a>
+                <div className="flex gap-4">
+                  <a href="https://github.com/mohamedsharshaar" target="_blank" rel="noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-800/50 hover:bg-gray-700/80 border border-gray-600 rounded-xl font-mono text-xs font-bold text-white transition-all hover:scale-105">
+                    GitHub.Repo
+                  </a>
+                  <a href="https://linkedin.com/in/mohamedsharshaar" target="_blank" rel="noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#0a66c2]/20 hover:bg-[#0a66c2]/40 border border-[#0a66c2]/50 rounded-xl font-mono text-xs font-bold text-white transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(10,102,194,0.3)]">
+                    LinkedIn.Connect()
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Form Side */}
+            <div className="bg-black/50 p-6 md:p-8 rounded-2xl border border-gray-800 shadow-inner backdrop-blur-sm relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
+              <form className="flex flex-col gap-4 md:gap-5 relative z-10" onSubmit={(e) => { e.preventDefault(); e.target.reset(); }}>
+                <div className="flex flex-col gap-2 text-left">
+                  <label className="text-xs font-mono text-gray-400 ml-1">const name =</label>
+                  <input type="text" placeholder="'Enter your name'" className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors" required />
+                </div>
+                <div className="flex flex-col gap-2 text-left">
+                  <label className="text-xs font-mono text-gray-400 ml-1">const email =</label>
+                  <input type="email" placeholder="'Enter your email'" className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors" required />
+                </div>
+                <div className="flex flex-col gap-2 text-left">
+                  <label className="text-xs font-mono text-gray-400 ml-1">const message =</label>
+                  <textarea placeholder="'How can we help each other?'" rows="3" className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors resize-none" required></textarea>
+                </div>
+                <button type="submit" className="mt-2 w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-mono font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-1 flex justify-center items-center gap-2">
+                  <span>await</span> sendMessage()
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+              </form>
+            </div>
           </div>
         </GlowCard>
       </section>
