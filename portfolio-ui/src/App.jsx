@@ -5,6 +5,7 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import ClickSpark from './ClickSpark';
 import GooeyNav from './GooeyNav';
+import ParticleText from './ParticleText';
 
 // Icons
 import { SiPhp, SiLaravel, SiMysql, SiGithub, SiDocker, SiReact, SiNextdotjs, SiTailwindcss, SiPython, SiN8N, SiNodedotjs, SiMongodb } from 'react-icons/si';
@@ -310,9 +311,28 @@ const HTMLContent = () => {
           <div className="font-mono text-indigo-400 mb-4 tracking-widest text-sm">
             <span className="text-teal-400">const</span> <span className="text-white">developer</span> = 
           </div>
-          <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-4 text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-            Mohamed Sharshar;
-          </h1>
+          
+          <div className="w-full h-32 md:h-48 mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+            <ParticleText
+              text="Mohamed Sharshar;"
+              particleSize={2.2}
+              density={4}
+              color="#ffffff"
+              highlightColor="#6366f1"
+              scatter={190}
+              gatherDuration={1600}
+              stagger={420}
+              pointerRepel={42}
+              repelRadius={120}
+              idleDrift={0.8}
+              trigger="mount"
+              fontSize="clamp(3.5rem, 10vw, 8rem)"
+              fontWeight={900}
+              fontFamily="inherit"
+              glow={true}
+            />
+          </div>
+
           <h2 className="text-xs md:text-sm font-mono tracking-[0.4em] text-teal-300 mb-8 uppercase">
             &lt; Laravel Backend Developer /&gt;
           </h2>
