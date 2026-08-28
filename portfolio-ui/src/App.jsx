@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { ScrollControls, Scroll, useScroll, Float, Stars, Sparkles } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import ClickSpark from './ClickSpark';
 
 // Icons
 import { SiPhp, SiLaravel, SiMysql, SiGithub, SiDocker, SiReact, SiNextdotjs, SiTailwindcss, SiPython, SiN8N, SiNodedotjs, SiMongodb } from 'react-icons/si';
@@ -401,6 +402,36 @@ const HTMLContent = () => {
 // 3D Navbar Overlay
 // ==========================================
 const Navbar3D = () => {
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    // Find the scroll container created by @react-three/drei's ScrollControls
+    const interval = setInterval(() => {
+      const scrollDiv = Array.from(document.querySelectorAll('div')).find(d => d.style.overflowY === 'auto' || d.style.overflow === 'auto');
+      if (scrollDiv) {
+        clearInterval(interval);
+        
+        const handleScroll = () => {
+          // ScrollControls uses 1.2 as distance multiplier per page
+          const pageHeight = window.innerHeight * 1.2;
+          const currentScroll = scrollDiv.scrollTop;
+          const activePage = Math.round(currentScroll / pageHeight);
+          
+          if (activePage === 0) setActiveIdx(0);
+          else if (activePage === 1) setActiveIdx(1);
+          else if (activePage === 2) setActiveIdx(2);
+          else if (activePage >= 3 && activePage < 3 + PROJECTS.length) setActiveIdx(3);
+          else setActiveIdx(4);
+        };
+        
+        scrollDiv.addEventListener('scroll', handleScroll);
+        handleScroll(); // initialize
+        return () => scrollDiv.removeEventListener('scroll', handleScroll);
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-full max-w-4xl px-4" style={{ perspective: '1000px' }}>
       <nav 
@@ -417,7 +448,8 @@ const Navbar3D = () => {
           {['Home', 'Experience', 'Skills', 'Projects', 'Contact'].map((item, idx) => (
             <button
               key={item}
-              className="relative px-3 md:px-4 py-2 text-gray-400 text-sm md:text-base font-mono tracking-wide transition-all duration-300 ease-out hover:text-white group"
+              className={`relative px-3 md:px-4 py-2 text-sm md:text-base font-mono tracking-wide transition-all duration-300 ease-out group
+                ${activeIdx === idx ? 'text-white font-bold' : 'text-gray-400 hover:text-white'}`}
               style={{ transformStyle: 'preserve-3d' }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateZ(15px) scale(1.05)';
@@ -428,16 +460,20 @@ const Navbar3D = () => {
                 e.currentTarget.style.transform = 'translateZ(0px) scale(1) rotateY(0deg)';
               }}
               onClick={() => {
-                const scrollDiv = document.querySelector('div[style*="overflow: auto"]');
+                const scrollDiv = Array.from(document.querySelectorAll('div')).find(d => d.style.overflowY === 'auto' || d.style.overflow === 'auto');
                 if (scrollDiv) {
                   const targetPage = idx === 0 ? 0 : idx === 1 ? 1 : idx === 2 ? 2 : idx === 3 ? 3 : (3 + PROJECTS.length);
-                  const scrollPos = targetPage * window.innerHeight;
+                  const scrollPos = targetPage * window.innerHeight * 1.2;
                   scrollDiv.scrollTo({ top: scrollPos, behavior: 'smooth' });
                 }
               }}
             >
               {item}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-400 to-indigo-500 transition-all duration-300 group-hover:w-full" style={{ transform: 'translateZ(10px)' }}></span>
+              <span 
+                className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-teal-400 to-indigo-500 transition-all duration-300
+                  ${activeIdx === idx ? 'w-full' : 'w-0 group-hover:w-full'}`} 
+                style={{ transform: 'translateZ(10px)' }}
+              ></span>
             </button>
           ))}
         </div>
@@ -453,7 +489,14 @@ export default function App() {
   const pages = 1 + 1 + 1 + PROJECTS.length + 1;
 
   return (
-    <div className="w-screen h-screen bg-[#050505] overflow-hidden relative font-sans">
+    <ClickSpark
+      sparkColor="#ffffff"
+      sparkSize={20}
+      sparkRadius={15}
+      sparkCount={8}
+      duration={400}
+    >
+      <div className="w-screen h-screen bg-[#050505] overflow-hidden relative font-sans">
       <Navbar3D />
       
       <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
@@ -475,5 +518,6 @@ export default function App() {
         </EffectComposer>
       </Canvas>
     </div>
+    </ClickSpark>
   );
 }
