@@ -4,6 +4,7 @@ import { ScrollControls, Scroll, useScroll, Float, Stars, Sparkles } from '@reac
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import ClickSpark from './ClickSpark';
+import GooeyNav from './GooeyNav';
 
 // Icons
 import { SiPhp, SiLaravel, SiMysql, SiGithub, SiDocker, SiReact, SiNextdotjs, SiTailwindcss, SiPython, SiN8N, SiNodedotjs, SiMongodb } from 'react-icons/si';
@@ -441,10 +442,12 @@ const HTMLContent = () => {
 };
 
 // ==========================================
-// 3D Navbar Overlay
+// ==========================================
+// Navbar Component (Interactive 3D Hover & Active State)
 // ==========================================
 const Navbar3D = () => {
   const [activeIdx, setActiveIdx] = useState(0);
+  const isNavigating = useRef(false);
 
   useEffect(() => {
     // Find the scroll container created by @react-three/drei's ScrollControls
@@ -454,6 +457,8 @@ const Navbar3D = () => {
         clearInterval(interval);
         
         const handleScroll = () => {
+          if (isNavigating.current) return;
+          
           // ScrollControls uses 1.2 as distance multiplier per page
           const pageHeight = window.innerHeight * 1.2;
           const currentScroll = scrollDiv.scrollTop;
@@ -474,10 +479,34 @@ const Navbar3D = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const items = [
+    { label: "Home", href: "#" },
+    { label: "Experience", href: "#" },
+    { label: "Skills", href: "#" },
+    { label: "Projects", href: "#" },
+    { label: "Contact", href: "#" }
+  ];
+
+  const handleItemClick = (idx) => {
+    setActiveIdx(idx);
+    isNavigating.current = true;
+    
+    const scrollDiv = Array.from(document.querySelectorAll('div')).find(d => d.style.overflowY === 'auto' || d.style.overflow === 'auto');
+    if (scrollDiv) {
+      const targetPage = idx === 0 ? 0 : idx === 1 ? 1 : idx === 2 ? 2 : idx === 3 ? 3 : (3 + PROJECTS.length);
+      const scrollPos = targetPage * window.innerHeight * 1.2;
+      scrollDiv.scrollTo({ top: scrollPos, behavior: 'smooth' });
+      
+      setTimeout(() => {
+        isNavigating.current = false;
+      }, 1000);
+    }
+  };
+
   return (
     <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-full max-w-4xl px-4" style={{ perspective: '1000px' }}>
       <nav 
-        className="flex justify-between items-center px-6 py-3 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+        className="flex justify-between items-center px-4 md:px-6 py-2 rounded-[2rem] bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
         style={{ transformStyle: 'preserve-3d' }}
       >
         {/* Logo */}
@@ -486,38 +515,18 @@ const Navbar3D = () => {
         </div>
 
         {/* Links */}
-        <div className="flex gap-2 md:gap-6 mx-auto md:mx-0">
-          {['Home', 'Experience', 'Skills', 'Projects', 'Contact'].map((item, idx) => (
-            <button
-              key={item}
-              className={`relative px-3 md:px-4 py-2 text-sm md:text-base font-mono tracking-wide transition-all duration-300 ease-out group
-                ${activeIdx === idx ? 'text-white font-bold' : 'text-gray-400 hover:text-white'}`}
-              style={{ transformStyle: 'preserve-3d' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateZ(15px) scale(1.05)';
-                const rotateY = idx < 2 ? '5deg' : '-5deg';
-                e.currentTarget.style.transform += ` rotateY(${rotateY})`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateZ(0px) scale(1) rotateY(0deg)';
-              }}
-              onClick={() => {
-                const scrollDiv = Array.from(document.querySelectorAll('div')).find(d => d.style.overflowY === 'auto' || d.style.overflow === 'auto');
-                if (scrollDiv) {
-                  const targetPage = idx === 0 ? 0 : idx === 1 ? 1 : idx === 2 ? 2 : idx === 3 ? 3 : (3 + PROJECTS.length);
-                  const scrollPos = targetPage * window.innerHeight * 1.2;
-                  scrollDiv.scrollTo({ top: scrollPos, behavior: 'smooth' });
-                }
-              }}
-            >
-              {item}
-              <span 
-                className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-teal-400 to-indigo-500 transition-all duration-300
-                  ${activeIdx === idx ? 'w-full' : 'w-0 group-hover:w-full'}`} 
-                style={{ transform: 'translateZ(10px)' }}
-              ></span>
-            </button>
-          ))}
+        <div className="mx-auto md:mx-0">
+          <GooeyNav
+            items={items}
+            particleCount={15}
+            particleDistances={[90, 10]}
+            particleR={100}
+            activeIndex={activeIdx}
+            onItemClick={handleItemClick}
+            animationTime={600}
+            timeVariance={300}
+            colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+          />
         </div>
       </nav>
     </div>
@@ -526,7 +535,7 @@ const Navbar3D = () => {
 
 // ==========================================
 // Main App Component
-// ==========================================
+// ==============================================================
 export default function App() {
   const pages = 1 + 1 + 1 + PROJECTS.length + 1;
 
