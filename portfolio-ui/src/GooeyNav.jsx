@@ -259,7 +259,7 @@ const GooeyNav = ({
             }
           }
           li.active {
-            color: black;
+            color: transparent;
             text-shadow: none;
           }
           li.active::after {

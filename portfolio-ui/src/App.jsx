@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import ClickSpark from './ClickSpark';
 import GooeyNav from './GooeyNav';
 import ParticleText from './ParticleText';
+import CertificatesGallery from './CertificatesGallery';
 
 // Icons
 import { SiPhp, SiLaravel, SiMysql, SiGithub, SiDocker, SiReact, SiNextdotjs, SiTailwindcss, SiPython, SiN8N, SiNodedotjs, SiMongodb } from 'react-icons/si';
@@ -433,6 +434,11 @@ const HTMLContent = () => {
         </section>
       ))}
 
+      {/* 4.5 Certificates Section */}
+      <section className="h-screen w-full relative">
+        <CertificatesGallery />
+      </section>
+
       {/* 5. Contact Section */}
       <section className="h-screen w-full flex flex-col items-center justify-center px-6 text-center">
         <GlowCard glowColor="59, 130, 246" className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-10 md:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
@@ -488,7 +494,8 @@ const Navbar3D = () => {
           else if (activePage === 1) setActiveIdx(1);
           else if (activePage === 2) setActiveIdx(2);
           else if (activePage >= 3 && activePage < 3 + PROJECTS.length) setActiveIdx(3);
-          else setActiveIdx(4);
+          else if (activePage === 3 + PROJECTS.length) setActiveIdx(4);
+          else setActiveIdx(5);
         };
         
         scrollDiv.addEventListener('scroll', handleScroll);
@@ -504,6 +511,7 @@ const Navbar3D = () => {
     { label: "Experience", href: "#" },
     { label: "Skills", href: "#" },
     { label: "Projects", href: "#" },
+    { label: "Certificates", href: "#" },
     { label: "Contact", href: "#" }
   ];
 
@@ -513,7 +521,7 @@ const Navbar3D = () => {
     
     const scrollDiv = Array.from(document.querySelectorAll('div')).find(d => d.style.overflowY === 'auto' || d.style.overflow === 'auto');
     if (scrollDiv) {
-      const targetPage = idx === 0 ? 0 : idx === 1 ? 1 : idx === 2 ? 2 : idx === 3 ? 3 : (3 + PROJECTS.length);
+      const targetPage = idx === 0 ? 0 : idx === 1 ? 1 : idx === 2 ? 2 : idx === 3 ? 3 : idx === 4 ? (3 + PROJECTS.length) : (4 + PROJECTS.length);
       const scrollPos = targetPage * window.innerHeight * 1.2;
       scrollDiv.scrollTo({ top: scrollPos, behavior: 'smooth' });
       
@@ -524,9 +532,9 @@ const Navbar3D = () => {
   };
 
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-full max-w-4xl px-4" style={{ perspective: '1000px' }}>
+    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-full max-w-6xl px-4" style={{ perspective: '1000px' }}>
       <nav 
-        className="flex justify-between items-center px-4 md:px-6 py-2 rounded-[2rem] bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+        className="flex justify-between items-center px-4 md:px-8 py-2 rounded-[2rem] bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
         style={{ transformStyle: 'preserve-3d' }}
       >
         {/* Logo */}
@@ -557,7 +565,7 @@ const Navbar3D = () => {
 // Main App Component
 // ==============================================================
 export default function App() {
-  const pages = 1 + 1 + 1 + PROJECTS.length + 1;
+  const pages = 1 + 1 + 1 + PROJECTS.length + 1 + 1; // Hero + Exp + Skills + Projects + Certificates + Contact
 
   return (
     <ClickSpark
