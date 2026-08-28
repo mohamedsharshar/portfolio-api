@@ -10,6 +10,6 @@ export default defineConfig({
     chunkSizeWarningLimit: 3000,
   },
   optimizeDeps: {
-    include: ['three', '@react-three/fiber', '@react-three/drei', '@react-three/rapier', 'ecctrl'],
+    include: ['three', '@react-three/fiber', '@react-three/drei'],
   },
 });
