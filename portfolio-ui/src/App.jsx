@@ -65,7 +65,6 @@ const Title3D = () => {
         color="#ffffff"
         anchorX="center"
         anchorY="middle"
-        font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2"
       >
         Mohamed SharShar
       </Text>
@@ -75,7 +74,6 @@ const Title3D = () => {
         color="#9ca3af"
         anchorX="center"
         anchorY="middle"
-        font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2"
       >
         FULL-STACK DEVELOPER & AI ENTHUSIAST
       </Text>
