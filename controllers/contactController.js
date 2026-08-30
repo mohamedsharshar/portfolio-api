@@ -19,7 +19,7 @@ const sendContactEmail = async (req, res) => {
             service: 'gmail',
             auth: {
                 user: 'mmshsh05@gmail.com', // ضع بريدك الإلكتروني هنا
-                pass: 'YOUR_APP_PASSWORD'     // ضع كلمة مرور التطبيق (App Password) الخاصة بـ Gmail هنا
+                pass: 'bolcpiqnzhkngrkf'     // ضع كلمة مرور التطبيق (App Password) الخاصة بـ Gmail هنا
             }
         });
 
