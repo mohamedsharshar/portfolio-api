@@ -300,6 +300,104 @@ const GlowCard = ({ children, className, glowColor = '99, 102, 241' }) => {
 };
 
 // ==========================================
+// Contact Form Component
+// ==========================================
+const ContactForm = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState({ loading: false, message: '', type: '' });
+
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus({ loading: true, message: '', type: '' });
+
+    try {
+      const response = await fetch('http://localhost:3000/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus({ loading: false, message: 'Message sent successfully!', type: 'success' });
+        setFormData({ name: '', email: '', message: '' }); // Reset form
+      } else {
+        setStatus({ loading: false, message: data.error || 'Failed to send message.', type: 'error' });
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus({ loading: false, message: 'Network error. Please try again.', type: 'error' });
+    }
+    
+    // Clear status message after 5 seconds
+    setTimeout(() => {
+      setStatus({ loading: false, message: '', type: '' });
+    }, 5000);
+  };
+
+  return (
+    <form className="flex flex-col gap-4 md:gap-5 relative z-10" onSubmit={handleSubmit}>
+      <div className="flex flex-col gap-2 text-left">
+        <label className="text-xs font-mono text-gray-400 ml-1">const name =</label>
+        <input 
+          type="text" 
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="'Enter your name'" 
+          className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors" 
+          required 
+        />
+      </div>
+      <div className="flex flex-col gap-2 text-left">
+        <label className="text-xs font-mono text-gray-400 ml-1">const email =</label>
+        <input 
+          type="email" 
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="'Enter your email'" 
+          className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors" 
+          required 
+        />
+      </div>
+      <div className="flex flex-col gap-2 text-left">
+        <label className="text-xs font-mono text-gray-400 ml-1">const message =</label>
+        <textarea 
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          placeholder="'How can we help each other?'" 
+          rows="3" 
+          className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors resize-none" 
+          required
+        ></textarea>
+      </div>
+      
+      {status.message && (
+        <div className={`text-sm font-mono p-2 rounded-md ${status.type === 'success' ? 'text-teal-400 bg-teal-900/20' : 'text-red-400 bg-red-900/20'}`}>
+          {status.type === 'success' ? '/* ' + status.message + ' */' : '// Error: ' + status.message}
+        </div>
+      )}
+
+      <button 
+        type="submit" 
+        disabled={status.loading}
+        className="mt-2 w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-mono font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-1 flex justify-center items-center gap-2"
+      >
+        <span>await</span> {status.loading ? 'sending...' : 'sendMessage()'}
+        {!status.loading && <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>}
+      </button>
+    </form>
+  );
+};
+
+// ==========================================
 // HTML Overlay Content
 // ==========================================
 const HTMLContent = () => {
@@ -472,24 +570,7 @@ const HTMLContent = () => {
             {/* Right Form Side */}
             <div className="bg-black/50 p-6 md:p-8 rounded-2xl border border-gray-800 shadow-inner backdrop-blur-sm relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
-              <form className="flex flex-col gap-4 md:gap-5 relative z-10" onSubmit={(e) => { e.preventDefault(); e.target.reset(); }}>
-                <div className="flex flex-col gap-2 text-left">
-                  <label className="text-xs font-mono text-gray-400 ml-1">const name =</label>
-                  <input type="text" placeholder="'Enter your name'" className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors" required />
-                </div>
-                <div className="flex flex-col gap-2 text-left">
-                  <label className="text-xs font-mono text-gray-400 ml-1">const email =</label>
-                  <input type="email" placeholder="'Enter your email'" className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors" required />
-                </div>
-                <div className="flex flex-col gap-2 text-left">
-                  <label className="text-xs font-mono text-gray-400 ml-1">const message =</label>
-                  <textarea placeholder="'How can we help each other?'" rows="3" className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors resize-none" required></textarea>
-                </div>
-                <button type="submit" className="mt-2 w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-mono font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-1 flex justify-center items-center gap-2">
-                  <span>await</span> sendMessage()
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </button>
-              </form>
+              <ContactForm />
             </div>
           </div>
         </GlowCard>
