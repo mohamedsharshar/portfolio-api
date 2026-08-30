@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ScrollControls, Scroll, useScroll, Float, Stars, Sparkles } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
@@ -194,6 +194,9 @@ const FixedBackground = () => {
 
 const SceneElements = () => {
   const scroll = useScroll();
+  const { viewport } = useThree();
+  const isMobile = viewport.width < 5;
+  
   const groupRef = useRef();
   const aiNodeRef = useRef();
   const dbRef = useRef();
@@ -241,7 +244,7 @@ const SceneElements = () => {
   });
 
   return (
-    <group ref={groupRef} scale={0.7}>
+    <group ref={groupRef} scale={isMobile ? 0.45 : 0.7} position={isMobile ? [0, 1, 0] : [0, 0, 0]}>
       <group ref={aiNodeRef} position={[4, 3, -1]}>
         <AINode />
       </group>
@@ -446,9 +449,9 @@ const HTMLContent = () => {
             <span className="text-teal-400">const</span> <span className="text-white">developer</span> = 
           </div>
           
-          <div className="w-full h-32 md:h-48 mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+          <div className="w-full h-24 sm:h-32 md:h-48 mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
             <ParticleText
-              text="Mohamed Sharshar;"
+              text="Mohamed SharShar;"
               particleSize={2.2}
               density={4}
               color="#ffffff"
@@ -460,7 +463,7 @@ const HTMLContent = () => {
               repelRadius={120}
               idleDrift={0.8}
               trigger="mount"
-              fontSize="clamp(3.5rem, 10vw, 8rem)"
+              fontSize="clamp(1.2rem, 7vw, 7rem)"
               fontWeight={900}
               fontFamily="inherit"
               glow={true}
@@ -492,8 +495,8 @@ const HTMLContent = () => {
       </section>
 
       {/* 2. Experience Section */}
-      <section className="h-screen w-full flex items-center justify-start px-8 md:px-32">
-        <GlowCard glowColor="99, 102, 241" className="max-w-2xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
+      <section className="h-screen w-full flex items-center justify-start px-6 md:px-32">
+        <GlowCard glowColor="99, 102, 241" className="max-w-2xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
           <h2 className="text-3xl md:text-4xl font-bold mb-10 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
             class <span className="text-white">Experience</span> {'{'}
           </h2>
@@ -515,8 +518,8 @@ const HTMLContent = () => {
       </section>
 
       {/* 3. Skills & Languages Section */}
-      <section className="h-screen w-full flex flex-col justify-center items-end px-8 md:px-32">
-        <GlowCard glowColor="20, 184, 166" className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
+      <section className="h-screen w-full flex flex-col justify-center items-end px-6 md:px-32">
+        <GlowCard glowColor="20, 184, 166" className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 font-mono text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-500 text-right">
             &lt;CoreSkills /&gt;
           </h2>
@@ -543,8 +546,8 @@ const HTMLContent = () => {
 
       {/* 4. Projects */}
       {PROJECTS.map((project, idx) => (
-        <section key={project.name} className={`h-screen w-full flex items-center ${idx % 2 === 0 ? 'justify-start pl-8 md:pl-32' : 'justify-end pr-8 md:pr-32'}`}>
-          <GlowCard glowColor="244, 63, 94" className="max-w-xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-transform hover:scale-[1.02] duration-500">
+        <section key={project.name} className={`h-screen w-full flex items-center ${idx % 2 === 0 ? 'justify-start pl-6 md:pl-32 pr-6 md:pr-0' : 'justify-end pr-6 md:pr-32 pl-6 md:pl-0'}`}>
+          <GlowCard glowColor="244, 63, 94" className="max-w-xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-transform hover:scale-[1.02] duration-500">
             <div className="text-indigo-400 font-mono text-sm mb-3 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
               0{idx + 1} // EXECUTE
@@ -574,7 +577,7 @@ const HTMLContent = () => {
 
       {/* 5. Contact Section */}
       <section className="h-screen w-full flex flex-col items-center justify-center px-4 md:px-8">
-        <GlowCard glowColor="59, 130, 246" className="w-full max-w-[95%] xl:max-w-[85rem] bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-8 md:p-14 lg:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
+        <GlowCard glowColor="59, 130, 246" className="w-full max-w-[95%] xl:max-w-[85rem] bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-14 lg:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 md:gap-16">
             {/* Left Info Side */}
             <div className="flex flex-col justify-center text-left min-w-0">
@@ -621,6 +624,7 @@ const HTMLContent = () => {
 // ==========================================
 const Navbar3D = () => {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isNavigating = useRef(false);
 
   useEffect(() => {
@@ -665,6 +669,7 @@ const Navbar3D = () => {
 
   const handleItemClick = (idx) => {
     setActiveIdx(idx);
+    setIsMobileMenuOpen(false);
     isNavigating.current = true;
     
     const scrollDiv = Array.from(document.querySelectorAll('div')).find(d => d.style.overflowY === 'auto' || d.style.overflow === 'auto');
@@ -680,32 +685,67 @@ const Navbar3D = () => {
   };
 
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-full max-w-6xl px-4" style={{ perspective: '1000px' }}>
-      <nav 
-        className="flex justify-between items-center px-4 md:px-8 py-2 rounded-[2rem] bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-        style={{ transformStyle: 'preserve-3d' }}
-      >
-        {/* Logo */}
-        <div className="font-mono text-xl font-black text-white hidden md:block">
-          <span className="text-indigo-500">~/</span>MS<span className="animate-pulse text-teal-400">_</span>
-        </div>
+    <>
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-full max-w-6xl px-4" style={{ perspective: '1000px' }}>
+        <nav 
+          className="flex justify-between items-center px-6 md:px-8 py-3 md:py-2 rounded-[2rem] bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          {/* Logo */}
+          <div className="font-mono text-xl font-black text-white">
+            <span className="text-indigo-500">~/</span>MS<span className="animate-pulse text-teal-400">_</span>
+          </div>
 
-        {/* Links */}
-        <div className="mx-auto md:mx-0">
-          <GooeyNav
-            items={items}
-            particleCount={15}
-            particleDistances={[90, 10]}
-            particleR={100}
-            activeIndex={activeIdx}
-            onItemClick={handleItemClick}
-            animationTime={600}
-            timeVariance={300}
-            colors={[1, 2, 3, 1, 2, 3, 1, 4]}
-          />
+          {/* Hamburger Menu (Mobile) */}
+          <div className="block md:hidden">
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+              className="text-white focus:outline-none flex flex-col justify-center items-center w-8 h-8 z-50 relative group"
+            >
+              <span className={`bg-teal-400 h-0.5 w-6 rounded-sm transition-all duration-300 ease-out ${isMobileMenuOpen ? 'rotate-45 translate-y-[6px]' : '-translate-y-1'}`} />
+              <span className={`bg-teal-400 h-0.5 w-6 rounded-sm transition-all duration-300 ease-out my-0.5 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+              <span className={`bg-teal-400 h-0.5 w-6 rounded-sm transition-all duration-300 ease-out ${isMobileMenuOpen ? '-rotate-45 -translate-y-[6px]' : 'translate-y-1'}`} />
+            </button>
+          </div>
+
+          {/* Links (Desktop) */}
+          <div className="hidden md:block mx-auto md:mx-0">
+            <GooeyNav
+              items={items}
+              particleCount={15}
+              particleDistances={[90, 10]}
+              particleR={100}
+              activeIndex={activeIdx}
+              onItemClick={handleItemClick}
+              animationTime={600}
+              timeVariance={300}
+              colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+            />
+          </div>
+        </nav>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <div 
+        className={`fixed inset-0 z-40 bg-black/95 backdrop-blur-3xl transition-all duration-500 ease-in-out md:hidden flex flex-col items-center justify-center ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} 
+        style={{ perspective: '1000px' }}
+      >
+        <div className="flex flex-col gap-6 items-center w-full px-8">
+          {items.map((item, idx) => (
+            <button
+              key={idx}
+              onClick={() => handleItemClick(idx)}
+              className={`w-full py-4 text-2xl font-mono font-bold transition-all duration-500 flex items-center justify-center gap-4 ${isMobileMenuOpen ? 'opacity-100 translate-y-0 rotateX-0' : 'opacity-0 translate-y-12 rotate-x-90'} ${activeIdx === idx ? 'text-teal-400 bg-white/5 rounded-2xl shadow-[inset_0_0_20px_rgba(45,212,191,0.2)]' : 'text-gray-400 hover:text-white hover:bg-white/5 rounded-2xl'}`}
+              style={{ transitionDelay: `${isMobileMenuOpen ? idx * 100 : 0}ms`, transformOrigin: 'top center', transformStyle: 'preserve-3d' }}
+            >
+              {activeIdx === idx && <span className="text-indigo-500 text-lg">&gt;</span>}
+              {item.label}
+              {activeIdx === idx && <span className="text-teal-400 animate-pulse">_</span>}
+            </button>
+          ))}
         </div>
-      </nav>
-    </div>
+      </div>
+    </>
   );
 };
 
