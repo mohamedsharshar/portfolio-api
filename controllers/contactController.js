@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const db = require('../config/db');
 
 const sendContactEmail = async (req, res) => {
     const { name, email, message } = req.body;
@@ -8,6 +9,10 @@ const sendContactEmail = async (req, res) => {
     }
 
     try {
+        // حفظ الرسالة في قاعدة البيانات أولاً
+        const insertQuery = `INSERT INTO messages (name, email, message) VALUES (?, ?, ?)`;
+        await db.query(insertQuery, [name, email, message]);
+
         // إعداد Nodemailer باستخدام Gmail
         // ملاحظة هامة: يجب عليك تفعيل 2-Step Verification في حساب جوجل وإنشاء App Password
         const transporter = nodemailer.createTransport({

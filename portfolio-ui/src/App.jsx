@@ -305,13 +305,48 @@ const GlowCard = ({ children, className, glowColor = '99, 102, 241' }) => {
 const ContactForm = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState({ loading: false, message: '', type: '' });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    // Clear error when user types
+    if (errors[e.target.name]) {
+      setErrors(prev => ({ ...prev, [e.target.name]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (formData.name.trim().length < 3) {
+      newErrors.name = 'Name must be at least 3 characters';
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
     setStatus({ loading: true, message: '', type: '' });
 
     try {
@@ -341,7 +376,7 @@ const ContactForm = () => {
   };
 
   return (
-    <form className="flex flex-col gap-4 md:gap-5 relative z-10" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-4 md:gap-5 relative z-10" onSubmit={handleSubmit} noValidate>
       <div className="flex flex-col gap-2 text-left">
         <label className="text-xs font-mono text-gray-400 ml-1">const name =</label>
         <input 
@@ -350,9 +385,9 @@ const ContactForm = () => {
           value={formData.name}
           onChange={handleChange}
           placeholder="'Enter your name'" 
-          className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors" 
-          required 
+          className={`w-full bg-gray-900/80 border ${errors.name ? 'border-red-500' : 'border-gray-700 focus:border-indigo-500'} rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors`}
         />
+        {errors.name && <span className="text-xs font-mono text-red-400 ml-1">// {errors.name}</span>}
       </div>
       <div className="flex flex-col gap-2 text-left">
         <label className="text-xs font-mono text-gray-400 ml-1">const email =</label>
@@ -362,9 +397,9 @@ const ContactForm = () => {
           value={formData.email}
           onChange={handleChange}
           placeholder="'Enter your email'" 
-          className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors" 
-          required 
+          className={`w-full bg-gray-900/80 border ${errors.email ? 'border-red-500' : 'border-gray-700 focus:border-indigo-500'} rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors`}
         />
+        {errors.email && <span className="text-xs font-mono text-red-400 ml-1">// {errors.email}</span>}
       </div>
       <div className="flex flex-col gap-2 text-left">
         <label className="text-xs font-mono text-gray-400 ml-1">const message =</label>
@@ -374,13 +409,13 @@ const ContactForm = () => {
           onChange={handleChange}
           placeholder="'How can we help each other?'" 
           rows="3" 
-          className="w-full bg-gray-900/80 border border-gray-700 focus:border-indigo-500 rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors resize-none" 
-          required
+          className={`w-full bg-gray-900/80 border ${errors.message ? 'border-red-500' : 'border-gray-700 focus:border-indigo-500'} rounded-lg px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none transition-colors resize-none`}
         ></textarea>
+        {errors.message && <span className="text-xs font-mono text-red-400 ml-1">// {errors.message}</span>}
       </div>
       
       {status.message && (
-        <div className={`text-sm font-mono p-2 rounded-md ${status.type === 'success' ? 'text-teal-400 bg-teal-900/20' : 'text-red-400 bg-red-900/20'}`}>
+        <div className={`text-sm font-mono p-2 rounded-md ${status.type === 'success' ? 'text-teal-400 bg-teal-900/20 border border-teal-500/30' : 'text-red-400 bg-red-900/20 border border-red-500/30'}`}>
           {status.type === 'success' ? '/* ' + status.message + ' */' : '// Error: ' + status.message}
         </div>
       )}
