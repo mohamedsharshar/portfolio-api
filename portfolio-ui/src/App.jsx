@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ScrollControls, Scroll, useScroll, Float, Stars, Sparkles } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
@@ -178,15 +178,15 @@ const FixedBackground = () => {
   return (
     <group>
       <group ref={farStars}>
-        <Stars radius={150} depth={80} count={3000} factor={2} saturation={0} fade speed={1} />
+        <Stars radius={150} depth={80} count={1000} factor={2} saturation={0} fade speed={1} />
       </group>
       <group ref={nearStars}>
-        <Stars radius={60} depth={30} count={2000} factor={3} saturation={0.2} fade speed={3} />
+        <Stars radius={60} depth={30} count={500} factor={3} saturation={0.2} fade speed={3} />
       </group>
       <group ref={nebula}>
-        <Sparkles count={150} scale={20} size={3} speed={0.3} opacity={0.25} color="#6366f1" />
-        <Sparkles count={150} scale={18} size={2} speed={0.5} opacity={0.2} color="#14b8a6" position={[0, -8, -5]} />
-        <Sparkles count={100} scale={12} size={4} speed={0.2} opacity={0.15} color="#f43f5e" position={[0, -16, -3]} />
+        <Sparkles count={50} scale={20} size={3} speed={0.3} opacity={0.25} color="#6366f1" />
+        <Sparkles count={50} scale={18} size={2} speed={0.5} opacity={0.2} color="#14b8a6" position={[0, -8, -5]} />
+        <Sparkles count={50} scale={12} size={4} speed={0.2} opacity={0.15} color="#f43f5e" position={[0, -16, -3]} />
       </group>
     </group>
   );
@@ -766,24 +766,26 @@ export default function App() {
       <div className="w-screen h-screen bg-[#050505] overflow-hidden relative font-sans">
       <Navbar3D />
       
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-        <color attach="background" args={['#050505']} />
-        
-        <FixedBackground />
-
-        <ScrollControls pages={pages} damping={0.25} distance={1.2}>
-          <AmbientColorShift />
-          <SceneElements />
+      <Suspense fallback={<div className="absolute inset-0 z-10 flex items-center justify-center font-mono text-teal-400 bg-[#050505] text-sm animate-pulse">Initializing System...</div>}>
+        <Canvas camera={{ position: [0, 0, 5], fov: 50 }} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
+          <color attach="background" args={['#050505']} />
           
-          <Scroll html>
-            <HTMLContent />
-          </Scroll>
-        </ScrollControls>
+          <FixedBackground />
 
-        <EffectComposer disableNormalPass>
-          <Bloom luminanceThreshold={0.4} mipmapBlur intensity={0.7} />
-        </EffectComposer>
-      </Canvas>
+          <ScrollControls pages={pages} damping={0.25} distance={1.2}>
+            <AmbientColorShift />
+            <SceneElements />
+            
+            <Scroll html>
+              <HTMLContent />
+            </Scroll>
+          </ScrollControls>
+
+          <EffectComposer disableNormalPass multisampling={0}>
+            <Bloom luminanceThreshold={0.5} intensity={0.5} />
+          </EffectComposer>
+        </Canvas>
+      </Suspense>
     </div>
     </ClickSpark>
   );
