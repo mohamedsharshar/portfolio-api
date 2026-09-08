@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import Stack from "./Stack";
 
@@ -33,9 +33,13 @@ export default function CertificatesGallery() {
     <img
       key={index}
       src={`/certifications/${cert}`}
-      alt={`Certificate ${index}`}
+      alt={`Certificate ${index + 1}`}
       className="w-full h-full object-cover rounded-xl"
       draggable={false}
+      loading="lazy"
+      decoding="async"
+      width={450}
+      height={320}
     />
   ));
 
@@ -100,6 +104,7 @@ export default function CertificatesGallery() {
                 src={`/certifications/${selectedCert}`}
                 alt="Selected Certificate"
                 className="max-w-full max-h-[85vh] object-contain rounded-lg border-2 border-indigo-500/50 shadow-[0_0_50px_rgba(99,102,241,0.4)]"
+                decoding="async"
               />
             </div>
           </div>,

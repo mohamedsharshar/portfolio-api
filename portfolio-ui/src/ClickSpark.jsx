@@ -12,7 +12,8 @@ const ClickSpark = ({
 }) => {
   const canvasRef = useRef(null);
   const sparksRef = useRef([]);
-  const startTimeRef = useRef(null);
+  const animationIdRef = useRef(null);
+  const drawLoopRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -63,17 +64,14 @@ const ClickSpark = ({
     [easing]
   );
 
+  // Store draw loop in a ref to avoid circular dependency issues
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    drawLoopRef.current = (timestamp) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
 
-    let animationId;
-
-    const draw = timestamp => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = timestamp;
-      }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       sparksRef.current = sparksRef.current.filter(spark => {
@@ -103,15 +101,21 @@ const ClickSpark = ({
         return true;
       });
 
-      animationId = requestAnimationFrame(draw);
+      // Only continue the loop if there are active sparks
+      if (sparksRef.current.length > 0) {
+        animationIdRef.current = requestAnimationFrame(drawLoopRef.current);
+      } else {
+        animationIdRef.current = null;
+      }
     };
-
-    animationId = requestAnimationFrame(draw);
 
     return () => {
-      cancelAnimationFrame(animationId);
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+        animationIdRef.current = null;
+      }
     };
-  }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale]);
+  }, [sparkColor, sparkSize, sparkRadius, duration, easeFunc, extraScale]);
 
   const handleClick = e => {
     const canvas = canvasRef.current;
@@ -129,6 +133,11 @@ const ClickSpark = ({
     }));
 
     sparksRef.current.push(...newSparks);
+
+    // Start the animation loop if not already running
+    if (!animationIdRef.current && drawLoopRef.current) {
+      animationIdRef.current = requestAnimationFrame(drawLoopRef.current);
+    }
   };
 
   return (

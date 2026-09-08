@@ -18,8 +18,8 @@ const sendContactEmail = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'mmshsh05@gmail.com', // ضع بريدك الإلكتروني هنا
-                pass: 'bolcpiqnzhkngrkf'     // ضع كلمة مرور التطبيق (App Password) الخاصة بـ Gmail هنا
+                user: process.env.GMAIL_USER || '',
+                pass: process.env.GMAIL_APP_PASSWORD || ''
             }
         });
 

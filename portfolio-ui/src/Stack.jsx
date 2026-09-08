@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }) {
   const x = useMotionValue(0);
@@ -78,6 +78,15 @@ export default function Stack({
     }
   }, [cards]);
 
+  // Memoize random rotations so they don't change on every render
+  const rotationMap = useMemo(() => {
+    const map = {};
+    cards.forEach((_, index) => {
+      map[index + 1] = randomRotation ? Math.random() * 10 - 5 : 0;
+    });
+    return map;
+  }, [cards.length, randomRotation]);
+
   const sendToBack = id => {
     setStack(prev => {
       const newStack = [...prev];
@@ -109,7 +118,7 @@ export default function Stack({
       onMouseLeave={() => pauseOnHover && setIsPaused(false)}
     >
       {stack.map((card, index) => {
-        const randomRotate = randomRotation ? Math.random() * 10 - 5 : 0;
+        const randomRotate = rotationMap[card.id] || 0;
         return (
           <CardRotate
             key={card.id}
@@ -119,10 +128,6 @@ export default function Stack({
           >
             <motion.div
               className="rounded-xl border-2 border-indigo-500/30 overflow-hidden w-full h-full bg-gray-900 shadow-2xl"
-              onPointerDown={(e) => {
-                 // capture mouse down position if we want to differentiate drag from click manually, 
-                 // but framer-motion handles onDrag vs onClick nicely.
-              }}
               onClick={() => {
                 if (shouldEnableClick) sendToBack(card.id);
                 // The front card is the last one in the array

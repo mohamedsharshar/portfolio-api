@@ -1,12 +1,11 @@
-import React, { useRef, useState, useEffect, Suspense } from 'react';
+import { useRef, useState, useEffect, Suspense, lazy } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { ScrollControls, Scroll, useScroll, Float, Stars, Sparkles } from '@react-three/drei';
-import { EffectComposer, Bloom } from '@react-three/postprocessing';
-import * as THREE from 'three';
+import { ScrollControls, Scroll, useScroll, Stars, Sparkles } from '@react-three/drei';
+import { Color } from 'three';
 import ClickSpark from './ClickSpark';
 import GooeyNav from './GooeyNav';
 import ParticleText from './ParticleText';
-import CertificatesGallery from './CertificatesGallery';
+const CertificatesGallery = lazy(() => import('./CertificatesGallery'));
 
 // Icons
 import { SiPhp, SiLaravel, SiMysql, SiGithub, SiDocker, SiReact, SiNextdotjs, SiTailwindcss, SiPython, SiN8N, SiNodedotjs, SiMongodb } from 'react-icons/si';
@@ -85,7 +84,7 @@ const PROJECTS = [
 
 const AINode = (props) => (
   <mesh {...props}>
-    <torusKnotGeometry args={[1.5, 0.4, 100, 16]} />
+    <torusKnotGeometry args={[1.5, 0.4, 64, 10]} />
     <meshStandardMaterial color="#3b82f6" wireframe />
   </mesh>
 );
@@ -94,7 +93,7 @@ const DatabaseShape = (props) => (
   <group {...props}>
     {[1.5, 0, -1.5].map((y, i) => (
       <mesh key={i} position={[0, y, 0]}>
-        <cylinderGeometry args={[1.8, 1.8, 1.2, 12]} />
+        <cylinderGeometry args={[1.8, 1.8, 1.2, 8]} />
         <meshStandardMaterial color="#14b8a6" wireframe />
       </mesh>
     ))}
@@ -137,16 +136,18 @@ const AmbientColorShift = () => {
   const scroll = useScroll();
   const light1 = useRef();
   const light2 = useRef();
-  const color = useRef(new THREE.Color(sectionColors[0]));
+  const color = useRef(new Color(sectionColors[0]));
+  const c1 = useRef(new Color());
+  const c2 = useRef(new Color());
 
   useFrame(() => {
     const offset = scroll.offset; // 0 -> 1
     const sectionIndex = offset * (sectionColors.length - 1);
     const idx = Math.floor(sectionIndex);
     const t = sectionIndex - idx;
-    const c1 = new THREE.Color(sectionColors[idx]);
-    const c2 = new THREE.Color(sectionColors[Math.min(idx + 1, sectionColors.length - 1)]);
-    color.current.lerpColors(c1, c2, t);
+    c1.current.set(sectionColors[idx]);
+    c2.current.set(sectionColors[Math.min(idx + 1, sectionColors.length - 1)]);
+    color.current.lerpColors(c1.current, c2.current, t);
 
     if (light2.current) light2.current.color.copy(color.current);
     if (light1.current) light1.current.intensity = 0.35 + Math.sin(offset * Math.PI * 4) * 0.1;
@@ -178,15 +179,15 @@ const FixedBackground = () => {
   return (
     <group>
       <group ref={farStars}>
-        <Stars radius={150} depth={80} count={1000} factor={2} saturation={0} fade speed={1} />
+        <Stars radius={150} depth={80} count={600} factor={2} saturation={0} fade speed={1} />
       </group>
       <group ref={nearStars}>
-        <Stars radius={60} depth={30} count={500} factor={3} saturation={0.2} fade speed={3} />
+        <Stars radius={60} depth={30} count={200} factor={3} saturation={0.2} fade speed={3} />
       </group>
       <group ref={nebula}>
-        <Sparkles count={50} scale={20} size={3} speed={0.3} opacity={0.25} color="#6366f1" />
-        <Sparkles count={50} scale={18} size={2} speed={0.5} opacity={0.2} color="#14b8a6" position={[0, -8, -5]} />
-        <Sparkles count={50} scale={12} size={4} speed={0.2} opacity={0.15} color="#f43f5e" position={[0, -16, -3]} />
+        <Sparkles count={30} scale={20} size={3} speed={0.3} opacity={0.25} color="#6366f1" />
+        <Sparkles count={30} scale={18} size={2} speed={0.5} opacity={0.2} color="#14b8a6" position={[0, -8, -5]} />
+        <Sparkles count={30} scale={12} size={4} speed={0.2} opacity={0.15} color="#f43f5e" position={[0, -16, -3]} />
       </group>
     </group>
   );
@@ -353,7 +354,8 @@ const ContactForm = () => {
     setStatus({ loading: true, message: '', type: '' });
 
     try {
-      const response = await fetch('http://localhost:3000/api/contact', {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -572,7 +574,9 @@ const HTMLContent = () => {
 
       {/* 4.5 Certificates Section */}
       <section className="h-screen w-full relative">
-        <CertificatesGallery />
+        <Suspense fallback={<div className="w-full h-full flex items-center justify-center font-mono text-teal-400 text-sm animate-pulse">Loading Certificates...</div>}>
+          <CertificatesGallery />
+        </Suspense>
       </section>
 
       {/* 5. Contact Section */}
@@ -780,10 +784,6 @@ export default function App() {
               <HTMLContent />
             </Scroll>
           </ScrollControls>
-
-          <EffectComposer disableNormalPass multisampling={0}>
-            <Bloom luminanceThreshold={0.5} intensity={0.5} />
-          </EffectComposer>
         </Canvas>
       </Suspense>
     </div>
