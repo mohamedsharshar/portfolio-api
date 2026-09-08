@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { projects, categories } from './data/projects';
 import { TbUsers, TbBulb, TbBrain, TbMessages, TbApi, TbRobot, TbX, TbExternalLink, TbBrandGithub, TbCode } from 'react-icons/tb';
 import GlowCard from './GlowCard';
@@ -115,8 +116,8 @@ export default function ProjectShowcase() {
       </div>
 
       {/* Project Details Modal */}
-      {selectedProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10">
+      {selectedProject && createPortal(
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedProject(null)}></div>
           
           <div className="relative w-full max-w-4xl max-h-[90vh] bg-[#0a0a0a] border border-gray-700 rounded-2xl overflow-y-auto shadow-2xl flex flex-col animate-in fade-in zoom-in-95 duration-200">
@@ -223,7 +224,8 @@ export default function ProjectShowcase() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );
