@@ -471,8 +471,8 @@ const HTMLContent = ({ tier, prefersReducedMotion }) => {
             ) : (
               <ParticleText
                 text="Mohamed SharShar;"
-                particleSize={tier === 'high' ? 2.2 : 3}
-                density={tier === 'high' ? 4 : 8}
+                particleSize={tier === 'high' ? 3.5 : 4.5}
+                density={tier === 'high' ? 3 : 5}
                 color="#ffffff"
                 highlightColor="#6366f1"
                 scatter={190}
