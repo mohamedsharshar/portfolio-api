@@ -6,7 +6,9 @@ import ClickSpark from './ClickSpark';
 import GooeyNav from './GooeyNav';
 import ParticleText from './ParticleText';
 import { useDevicePerformance } from './useDevicePerformance';
-const CertificatesGallery = lazy(() => import('./CertificatesGallery'));
+import GlowCard from './GlowCard';
+import CertificatesGallery from './CertificatesGallery';
+import ProjectShowcase from './ProjectShowcase';
 
 // Icons
 import { SiPhp, SiLaravel, SiMysql, SiGithub, SiDocker, SiReact, SiNextdotjs, SiTailwindcss, SiPython, SiN8N, SiNodedotjs, SiMongodb, SiHtml5, SiCss, SiJavascript, SiBootstrap } from 'react-icons/si';
@@ -92,55 +94,6 @@ const EXPERIENCES = [
     company: 'PureSoft',
     period: 'Jul 2025 – Dec 2025',
     desc: 'Designed and developed websites, mobile applications, and custom business systems, including POS solutions, for clients across various industries.'
-  }
-];
-
-const PROJECTS = [
-  {
-    name: 'Masarat – Educational Platform',
-    subtitle: 'Laravel',
-    date: 'Sep 2026',
-    desc: 'Built and deployed a live e-learning platform where students can enroll in courses, track their progress, and interact with instructors. Reached 187 students during its pilot launch.',
-    tech: ['Laravel', 'E-learning'],
-    demoLink: 'https://masarat-platform.fly.dev'
-  },
-  {
-    name: 'CoreWise',
-    subtitle: 'Graduation Project (Laravel)',
-    date: 'Jul 2026',
-    desc: 'Built a multi-tenant HR & payroll platform for the MENA region with role-based access control and full Arabic/English/French localization.\nIntegrated AI automation workflows using n8n, including an AI-powered ATS and a RAG-based HR chatbot, cutting manual HR processing time from hours to minutes, along with real-time chat, Kanban tracking, and GPS-based attendance.',
-    tech: ['Laravel', 'n8n', 'AI', 'Multi-tenant']
-  },
-  {
-    name: 'Taqawi',
-    subtitle: 'Laravel, React, Next.js',
-    date: 'May 2026',
-    desc: 'Built a bilingual platform combining a Laravel REST API, a React public site, and a Next.js admin dashboard for investor relations, financial documents, and content management, with role-based access and interactive analytics dashboards.',
-    tech: ['Laravel', 'React', 'Next.js', 'REST API']
-  },
-  {
-    name: 'Anany Audit & Assurance Office',
-    subtitle: 'Corporate CMS (Laravel)',
-    date: 'Dec 2025',
-    desc: 'Built a bilingual corporate CMS with role-based access control, integrated with Meilisearch search, automated email notifications, and a real-time admin analytics dashboard. Live in production.',
-    tech: ['Laravel', 'Meilisearch', 'CMS'],
-    demoLink: 'https://anany.eg'
-  },
-  {
-    name: 'Fsoal (Fosool)',
-    subtitle: 'EdTech Platform (Laravel)',
-    date: 'Oct 2025',
-    desc: 'Designed a bilingual learning platform for teachers and students, with role-based Filament admin panels, class booking, an auto-graded quiz engine, live video sessions, and online payments. Live in production.',
-    tech: ['Laravel', 'Filament', 'Payment Integration'],
-    demoLink: 'https://fsoal.sys-web.net'
-  },
-  {
-    name: 'Afaq Store',
-    subtitle: 'Modular E-commerce (Laravel)',
-    date: 'Sep 2025',
-    desc: 'Collaborated with Afaq Store as part of the development team to build a modular e-commerce platform with a RESTful API secured via OAuth2, a Filament admin panel, and integrated push notifications and live video support. Live in production.',
-    tech: ['Laravel', 'OAuth2', 'Filament', 'E-commerce'],
-    demoLink: 'https://afaq-stores.com'
   }
 ];
 
@@ -339,46 +292,7 @@ const SceneElements = ({ tier, prefersReducedMotion }) => {
 };
 
 // ==========================================
-// GlowCard Component (Mouse Tracking Border Glow)
-// ==========================================
-const GlowCard = ({ children, className, glowColor = '99, 102, 241' }) => {
-  const cardRef = useRef(null);
 
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    cardRef.current.style.setProperty('--glow-x', `${x}px`);
-    cardRef.current.style.setProperty('--glow-y', `${y}px`);
-  };
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      className={`relative group ${className}`}
-      style={{
-        '--glow-color': glowColor,
-        '--glow-radius': '300px'
-      }}
-    >
-      <div className="absolute inset-0 z-0 pointer-events-none rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(var(--glow-radius)_circle_at_var(--glow-x)_var(--glow-y),rgba(var(--glow-color),0.08)_0%,transparent_50%)]" />
-      
-      <div className="absolute inset-0 z-10 pointer-events-none rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-500
-        before:absolute before:inset-0 before:p-[2px] before:rounded-[inherit]
-        before:bg-[radial-gradient(var(--glow-radius)_circle_at_var(--glow-x)_var(--glow-y),rgba(var(--glow-color),1)_0%,rgba(var(--glow-color),0.2)_30%,transparent_60%)]
-        before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
-        before:[-webkit-mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
-        before:[mask-composite:exclude] before:[-webkit-mask-composite:xor]"
-      />
-      
-      <div className="relative z-20 h-full">
-        {children}
-      </div>
-    </div>
-  );
-};
 
 // ==========================================
 // Contact Form Component
@@ -636,40 +550,8 @@ const HTMLContent = ({ tier, prefersReducedMotion }) => {
         </GlowCard>
       </section>
 
-      {/* 4. Projects */}
-      {PROJECTS.map((project, idx) => (
-        <section key={project.name} className={`h-screen w-full flex items-center ${idx % 2 === 0 ? 'justify-start pl-6 md:pl-32 pr-6 md:pr-0' : 'justify-end pr-6 md:pr-32 pl-6 md:pl-0'}`}>
-          <GlowCard glowColor="244, 63, 94" className="max-w-xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-transform hover:scale-[1.02] duration-500">
-            <div className="text-indigo-400 font-mono text-sm mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-              0{idx + 1} // EXECUTE
-            </div>
-            <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white drop-shadow-md group-hover:text-indigo-300 transition-colors">
-              {project.name}
-            </h3>
-            <div className="flex justify-between items-center mb-6">
-              <p className="text-teal-400 font-mono text-xs tracking-widest uppercase">{project.subtitle}</p>
-              {project.date && <span className="text-gray-400 font-mono text-xs bg-gray-800/50 px-2 py-1 rounded-md border border-gray-700">{project.date}</span>}
-            </div>
-            <p className="text-gray-300 leading-relaxed mb-8 font-light text-base bg-black/20 p-4 rounded-lg border-l-2 border-teal-500/30 whitespace-pre-line">
-              {project.description || project.desc}
-            </p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {project.tech.map(t => (
-                <span key={t} className="text-xs px-3 py-1.5 bg-black/80 border border-gray-700 text-gray-300 rounded-md font-mono">
-                  {t}
-                </span>
-              ))}
-            </div>
-            {project.demoLink && (
-              <a href={project.demoLink.startsWith('http') ? project.demoLink : `https://${project.demoLink}`} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 hover:border-indigo-400 rounded-lg text-sm font-mono transition-all group w-fit">
-                <span>View Live Demo</span>
-                <svg className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-              </a>
-            )}
-          </GlowCard>
-        </section>
-      ))}
+      {/* 4. Projects Showcase */}
+      <ProjectShowcase />
 
       {/* 4.5 Certificates Section */}
       <section className="h-screen w-full relative">
@@ -748,8 +630,8 @@ const Navbar3D = () => {
           if (activePage === 0) setActiveIdx(0);
           else if (activePage === 1) setActiveIdx(1);
           else if (activePage === 2) setActiveIdx(2);
-          else if (activePage >= 3 && activePage < 3 + PROJECTS.length) setActiveIdx(3);
-          else if (activePage === 3 + PROJECTS.length) setActiveIdx(4);
+          else if (activePage === 3) setActiveIdx(3);
+          else if (activePage === 4) setActiveIdx(4);
           else setActiveIdx(5);
         };
         
@@ -777,7 +659,7 @@ const Navbar3D = () => {
     
     const scrollDiv = Array.from(document.querySelectorAll('div')).find(d => d.style.overflowY === 'auto' || d.style.overflow === 'auto');
     if (scrollDiv) {
-      const targetPage = idx === 0 ? 0 : idx === 1 ? 1 : idx === 2 ? 2 : idx === 3 ? 3 : idx === 4 ? (3 + PROJECTS.length) : (4 + PROJECTS.length);
+      const targetPage = idx;
       const scrollPos = targetPage * window.innerHeight * 1.2;
       scrollDiv.scrollTo({ top: scrollPos, behavior: 'smooth' });
       
@@ -856,7 +738,7 @@ const Navbar3D = () => {
 // Main App Component
 // ==============================================================
 export default function App() {
-  const pages = 1 + 1 + 1 + PROJECTS.length + 1 + 1; // Hero + Exp + Skills + Projects + Certificates + Contact
+  const pages = 6.5; // Hero + Exp + Skills + Projects + Certificates + Contact
   
   const { tier, prefersReducedMotion } = useDevicePerformance();
 
