@@ -564,7 +564,7 @@ const HTMLContent = ({ tier, prefersReducedMotion }) => {
           </p>
           
           <a 
-            href="/Mohamed_Sharshar.pdf" 
+            href="/Mohamed_SharShar.pdf" 
             download 
             className="mt-10 px-8 py-4 bg-indigo-600/20 border border-indigo-500/50 backdrop-blur-md rounded-lg font-mono text-white text-sm hover:bg-indigo-600/40 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] flex items-center gap-3 group"
           >
