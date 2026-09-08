@@ -9,26 +9,75 @@ import { useDevicePerformance } from './useDevicePerformance';
 const CertificatesGallery = lazy(() => import('./CertificatesGallery'));
 
 // Icons
-import { SiPhp, SiLaravel, SiMysql, SiGithub, SiDocker, SiReact, SiNextdotjs, SiTailwindcss, SiPython, SiN8N, SiNodedotjs, SiMongodb } from 'react-icons/si';
-import { TbApi } from 'react-icons/tb';
+import { SiPhp, SiLaravel, SiMysql, SiGithub, SiDocker, SiReact, SiNextdotjs, SiTailwindcss, SiPython, SiN8N, SiNodedotjs, SiMongodb, SiHtml5, SiCss, SiJavascript, SiBootstrap } from 'react-icons/si';
+import { TbApi, TbRobot, TbBrain, TbMessages, TbBug, TbUsers, TbBulb, TbDatabase } from 'react-icons/tb';
 
 // ==========================================
 // DATA: CV & Portfolio Content
 // ==========================================
 const SKILLS = [
-  { name: 'PHP', icon: <SiPhp className="text-[#777BB4]" /> },
-  { name: 'Laravel', icon: <SiLaravel className="text-[#FF2D20]" /> },
-  { name: 'MySQL', icon: <SiMysql className="text-[#4479A1]" /> },
-  { name: 'MongoDB', icon: <SiMongodb className="text-[#47A248]" /> },
-  { name: 'RESTful APIs', icon: <TbApi className="text-gray-300" /> },
-  { name: 'Node.js', icon: <SiNodedotjs className="text-[#339933]" /> },
-  { name: 'React.js', icon: <SiReact className="text-[#61DAFB]" /> },
-  { name: 'Next.js', icon: <SiNextdotjs className="text-white" /> },
-  { name: 'Python', icon: <SiPython className="text-[#3776AB]" /> },
-  { name: 'Tailwind CSS', icon: <SiTailwindcss className="text-[#06B6D4]" /> },
-  { name: 'Git & GitHub', icon: <SiGithub className="text-white" /> },
-  { name: 'Docker', icon: <SiDocker className="text-[#2496ED]" /> },
-  { name: 'n8n Automation', icon: <SiN8N className="text-[#FF6D5A]" /> },
+  {
+    category: "Backend Development",
+    items: [
+      { name: 'PHP', icon: <SiPhp className="text-[#777BB4]" /> },
+      { name: 'Laravel', icon: <SiLaravel className="text-[#FF2D20]" /> },
+      { name: 'Node.js', icon: <SiNodedotjs className="text-[#339933]" /> },
+      { name: 'Python', icon: <SiPython className="text-[#3776AB]" /> },
+    ]
+  },
+  {
+    category: "Frontend Development",
+    items: [
+      { name: 'HTML', icon: <SiHtml5 className="text-[#E34F26]" /> },
+      { name: 'CSS', icon: <SiCss className="text-[#1572B6]" /> },
+      { name: 'JS', icon: <SiJavascript className="text-[#F7DF1E]" /> },
+      { name: 'React.js', icon: <SiReact className="text-[#61DAFB]" /> },
+      { name: 'Next.js', icon: <SiNextdotjs className="text-white" /> },
+      { name: 'Tailwind CSS', icon: <SiTailwindcss className="text-[#06B6D4]" /> },
+      { name: 'Bootstrap', icon: <SiBootstrap className="text-[#7952B3]" /> },
+    ]
+  },
+  {
+    category: "APIs & Integration",
+    items: [
+      { name: 'RESTful APIs', icon: <TbApi className="text-gray-300" /> },
+      { name: 'Third-Party Integration', icon: <TbApi className="text-indigo-400" /> },
+    ]
+  },
+  {
+    category: "Databases",
+    items: [
+      { name: 'MySQL', icon: <SiMysql className="text-[#4479A1]" /> },
+      { name: 'MongoDB', icon: <SiMongodb className="text-[#47A248]" /> },
+      { name: 'Oracle SQL', icon: <TbDatabase className="text-[#F80000]" /> },
+      { name: 'Query Optimization', icon: <SiMysql className="text-gray-400" /> },
+    ]
+  },
+  {
+    category: "AI & Automation",
+    items: [
+      { name: 'n8n Automation', icon: <SiN8N className="text-[#FF6D5A]" /> },
+      { name: 'AI Agents', icon: <TbRobot className="text-teal-400" /> },
+      { name: 'RAG', icon: <TbBrain className="text-purple-400" /> },
+      { name: 'Machine Learning', icon: <SiPython className="text-[#3776AB]" /> },
+    ]
+  },
+  {
+    category: "DevOps & Tools",
+    items: [
+      { name: 'Docker', icon: <SiDocker className="text-[#2496ED]" /> },
+      { name: 'Git & GitHub', icon: <SiGithub className="text-white" /> },
+    ]
+  },
+  {
+    category: "Soft Skills",
+    items: [
+      { name: 'Problem Solving', icon: <TbBulb className="text-yellow-400" /> },
+      { name: 'Debugging', icon: <TbBug className="text-red-400" /> },
+      { name: 'Team Collaboration', icon: <TbUsers className="text-blue-400" /> },
+      { name: 'Agile Basics', icon: <TbMessages className="text-green-400" /> },
+    ]
+  }
 ];
 
 const EXPERIENCES = [
@@ -48,34 +97,50 @@ const EXPERIENCES = [
 
 const PROJECTS = [
   {
+    name: 'Masarat – Educational Platform',
+    subtitle: 'Laravel',
+    date: 'Sep 2026',
+    desc: 'Built and deployed a live e-learning platform where students can enroll in courses, track their progress, and interact with instructors. Reached 187 students during its pilot launch.',
+    tech: ['Laravel', 'E-learning'],
+    demoLink: 'https://masarat-platform.fly.dev'
+  },
+  {
     name: 'CoreWise',
-    subtitle: 'Graduation Project | MNU',
-    desc: 'Architected a multi-tenant HR & payroll platform for the MENA region with 52 models, 5-tier RBAC, and full Arabic/English/French localization. Integrated 8 n8n AI workflows (AI ATS, RAG HR chatbot).',
-    tech: ['Laravel', 'MySQL', 'n8n AI', 'REST API']
+    subtitle: 'Graduation Project (Laravel)',
+    date: 'Jul 2026',
+    desc: 'Built a multi-tenant HR & payroll platform for the MENA region with role-based access control and full Arabic/English/French localization.\nIntegrated AI automation workflows using n8n, including an AI-powered ATS and a RAG-based HR chatbot, cutting manual HR processing time from hours to minutes, along with real-time chat, Kanban tracking, and GPS-based attendance.',
+    tech: ['Laravel', 'n8n', 'AI', 'Multi-tenant']
   },
   {
     name: 'Taqawi',
-    subtitle: 'Horizon IT - Satellite Services',
-    desc: 'Architected a three-tier bilingual platform: a Laravel 12 REST API, a React 19 public site, and a Next.js 16 admin dashboard. Built interactive Chart.js analytics dashboards.',
-    tech: ['Laravel 12', 'React 19', 'Next.js 16', 'Chart.js']
+    subtitle: 'Laravel, React, Next.js',
+    date: 'May 2026',
+    desc: 'Built a bilingual platform combining a Laravel REST API, a React public site, and a Next.js admin dashboard for investor relations, financial documents, and content management, with role-based access and interactive analytics dashboards.',
+    tech: ['Laravel', 'React', 'Next.js', 'REST API']
   },
   {
-    name: 'Anany Audit & Assurance',
-    subtitle: 'Corporate CMS',
-    desc: 'Architected a bilingual CMS using the Repository-Service pattern across 23 models. Built a dual public/admin REST API integrated with Meilisearch and automated email notifications.',
-    tech: ['Laravel', 'Meilisearch', 'REST API']
+    name: 'Anany Audit & Assurance Office',
+    subtitle: 'Corporate CMS (Laravel)',
+    date: 'Dec 2025',
+    desc: 'Built a bilingual corporate CMS with role-based access control, integrated with Meilisearch search, automated email notifications, and a real-time admin analytics dashboard. Live in production.',
+    tech: ['Laravel', 'Meilisearch', 'CMS'],
+    demoLink: 'https://anany.eg'
   },
   {
     name: 'Fsoal (Fosool)',
-    subtitle: 'EdTech Platform',
-    desc: 'Designed a modular monolith with 16 modules, 85+ models, and 190+ migrations. Built 4 role-based Filament admin panels, an auto-graded quiz engine, and live video via BigBlueButton.',
-    tech: ['Laravel', 'Filament', 'BigBlueButton']
+    subtitle: 'EdTech Platform (Laravel)',
+    date: 'Oct 2025',
+    desc: 'Designed a bilingual learning platform for teachers and students, with role-based Filament admin panels, class booking, an auto-graded quiz engine, live video sessions, and online payments. Live in production.',
+    tech: ['Laravel', 'Filament', 'Payment Integration'],
+    demoLink: 'https://fsoal.sys-web.net'
   },
   {
     name: 'Afaq Store',
-    subtitle: 'Modular E-commerce',
-    desc: 'Built a modular e-commerce platform (13 modules, 40 models) with a 30+ endpoint REST API secured via OAuth2. Implemented a 20-resource Filament admin panel.',
-    tech: ['Laravel', 'OAuth2', 'Filament', 'OneSignal']
+    subtitle: 'Modular E-commerce (Laravel)',
+    date: 'Sep 2025',
+    desc: 'Collaborated with Afaq Store as part of the development team to build a modular e-commerce platform with a RESTful API secured via OAuth2, a Filament admin panel, and integrated push notifications and live video support. Live in production.',
+    tech: ['Laravel', 'OAuth2', 'Filament', 'E-commerce'],
+    demoLink: 'https://afaq-stores.com'
   }
 ];
 
@@ -495,11 +560,11 @@ const HTMLContent = ({ tier, prefersReducedMotion }) => {
           </h2>
           <p className="text-gray-300 text-base md:text-xl leading-relaxed max-w-3xl font-light border-l-2 border-indigo-500/50 pl-6 text-left bg-black/20 p-4 rounded-r-xl backdrop-blur-sm">
             <span className="text-indigo-400 font-mono text-sm block mb-2">// PROFESSIONAL SUMMARY</span>
-            Backend Developer specializing in PHP and Laravel, delivering scalable HRMS, payroll, e-commerce, and SaaS platforms with multi-tenancy, RESTful APIs, and AI-powered automation. Focused on clean architecture and building reliable, high-quality systems.
+            A skilled full stack developer specializing in Laravel and PHP, with experience building HRMS, payroll, e-commerce, and SaaS platforms for real clients. Demonstrated abilities in system design, database optimization, and integrating AI-powered automation using n8n, AI agents, and RAG workflows. Recognized for problem-solving, clean architecture, and delivering reliable systems that support complex business needs. Also experienced with Docker and Oracle SQL.
           </p>
           
           <a 
-            href="/Mohamed_Sharshar_CV.pdf" 
+            href="/Mohamed_Sharshar.pdf" 
             download 
             className="mt-10 px-8 py-4 bg-indigo-600/20 border border-indigo-500/50 backdrop-blur-md rounded-lg font-mono text-white text-sm hover:bg-indigo-600/40 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] flex items-center gap-3 group"
           >
@@ -540,14 +605,21 @@ const HTMLContent = ({ tier, prefersReducedMotion }) => {
       {/* 3. Skills & Languages Section */}
       <section className="h-screen w-full flex flex-col justify-center items-end px-6 md:px-32">
         <GlowCard glowColor="20, 184, 166" className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 font-mono text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-500 text-right">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 font-mono text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-500 text-right">
             &lt;CoreSkills /&gt;
           </h2>
-          <div className="flex flex-wrap justify-end gap-3 md:gap-4 mb-10">
-            {SKILLS.map(skill => (
-              <div key={skill.name} className="px-5 py-3 rounded-xl border border-gray-700 bg-black/50 flex items-center gap-3 hover:border-teal-500/50 hover:bg-teal-900/20 transition-all duration-300 cursor-default group">
-                <span className="text-xl group-hover:scale-110 transition-transform">{skill.icon}</span>
-                <span className="text-sm font-medium text-gray-300 group-hover:text-white font-mono">{skill.name}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 mb-8 w-full">
+            {SKILLS.map(category => (
+              <div key={category.category} className="flex flex-col items-end">
+                <h3 className="text-sm font-mono text-indigo-400 mb-3">// {category.category}</h3>
+                <div className="flex flex-wrap justify-end gap-2">
+                  {category.items.map(skill => (
+                    <div key={skill.name} className="px-3 py-2 rounded-lg border border-gray-700 bg-black/50 flex items-center gap-2 hover:border-teal-500/50 hover:bg-teal-900/20 transition-all duration-300 cursor-default group">
+                      <span className="text-lg group-hover:scale-110 transition-transform">{skill.icon}</span>
+                      <span className="text-xs font-medium text-gray-300 group-hover:text-white font-mono whitespace-nowrap">{skill.name}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -575,17 +647,26 @@ const HTMLContent = ({ tier, prefersReducedMotion }) => {
             <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white drop-shadow-md group-hover:text-indigo-300 transition-colors">
               {project.name}
             </h3>
-            <p className="text-teal-400 font-mono text-xs tracking-widest uppercase mb-6">{project.subtitle}</p>
-            <p className="text-gray-300 leading-relaxed mb-8 font-light text-base bg-black/20 p-4 rounded-lg border-l-2 border-teal-500/30">
+            <div className="flex justify-between items-center mb-6">
+              <p className="text-teal-400 font-mono text-xs tracking-widest uppercase">{project.subtitle}</p>
+              {project.date && <span className="text-gray-400 font-mono text-xs bg-gray-800/50 px-2 py-1 rounded-md border border-gray-700">{project.date}</span>}
+            </div>
+            <p className="text-gray-300 leading-relaxed mb-8 font-light text-base bg-black/20 p-4 rounded-lg border-l-2 border-teal-500/30 whitespace-pre-line">
               {project.description || project.desc}
             </p>
-            <div className="flex flex-wrap gap-2 mb-2">
+            <div className="flex flex-wrap gap-2 mb-4">
               {project.tech.map(t => (
                 <span key={t} className="text-xs px-3 py-1.5 bg-black/80 border border-gray-700 text-gray-300 rounded-md font-mono">
                   {t}
                 </span>
               ))}
             </div>
+            {project.demoLink && (
+              <a href={project.demoLink.startsWith('http') ? project.demoLink : `https://${project.demoLink}`} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 hover:border-indigo-400 rounded-lg text-sm font-mono transition-all group w-fit">
+                <span>View Live Demo</span>
+                <svg className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
+            )}
           </GlowCard>
         </section>
       ))}
