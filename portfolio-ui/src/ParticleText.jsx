@@ -137,7 +137,15 @@ const ParticleText = ({
       ctx.fill();
     };
 
+    let isVisible = true;
+    let isPageVisible = !document.hidden;
+
     const render = now => {
+      if (!isVisible || !isPageVisible) {
+        animationFrame = window.requestAnimationFrame(render);
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
       if (glow && !reducedMotion) {
@@ -204,6 +212,16 @@ const ParticleText = ({
         animationFrame = window.requestAnimationFrame(render);
       }
     };
+
+    const handleVisibilityChange = () => {
+      isPageVisible = !document.hidden;
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    const observer = new IntersectionObserver((entries) => {
+      isVisible = entries[0].isIntersecting;
+    });
+    if (container) observer.observe(container);
 
     const sampleText = async () => {
       const currentBuild = ++buildId;
@@ -375,14 +393,17 @@ const ParticleText = ({
 
     return () => {
       buildId += 1;
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (observer) observer.disconnect();
       resizeObserver.disconnect();
       reduceMotionQuery?.removeEventListener('change', handleReduceMotionChange);
       canvas.removeEventListener('pointerenter', handlePointerEnter);
       canvas.removeEventListener('pointermove', handlePointerMove);
       canvas.removeEventListener('pointerleave', handlePointerLeave);
       canvas.removeEventListener('click', handleClick);
-
-      if (animationFrame !== null) window.cancelAnimationFrame(animationFrame);
       if (resizeFrame !== null) window.cancelAnimationFrame(resizeFrame);
     };
   }, [

@@ -5,6 +5,7 @@ import { Color } from 'three';
 import ClickSpark from './ClickSpark';
 import GooeyNav from './GooeyNav';
 import ParticleText from './ParticleText';
+import { useDevicePerformance } from './useDevicePerformance';
 const CertificatesGallery = lazy(() => import('./CertificatesGallery'));
 
 // Icons
@@ -82,18 +83,18 @@ const PROJECTS = [
 // 3D Programming Shapes
 // ==========================================
 
-const AINode = (props) => (
+const AINode = ({ tier, ...props }) => (
   <mesh {...props}>
-    <torusKnotGeometry args={[1.5, 0.4, 64, 10]} />
+    <torusKnotGeometry args={[1.5, 0.4, tier === 'high' ? 64 : 32, tier === 'high' ? 10 : 6]} />
     <meshStandardMaterial color="#3b82f6" wireframe />
   </mesh>
 );
 
-const DatabaseShape = (props) => (
+const DatabaseShape = ({ tier, ...props }) => (
   <group {...props}>
     {[1.5, 0, -1.5].map((y, i) => (
       <mesh key={i} position={[0, y, 0]}>
-        <cylinderGeometry args={[1.8, 1.8, 1.2, 8]} />
+        <cylinderGeometry args={[1.8, 1.8, 1.2, tier === 'high' ? 8 : 6]} />
         <meshStandardMaterial color="#14b8a6" wireframe />
       </mesh>
     ))}
@@ -162,12 +163,14 @@ const AmbientColorShift = () => {
   );
 };
 
-const FixedBackground = () => {
+const FixedBackground = ({ tier, prefersReducedMotion }) => {
   const farStars = useRef();
   const nearStars = useRef();
   const nebula = useRef();
 
   useFrame((state, delta) => {
+    if (prefersReducedMotion) return; // disable background rotation on reduced motion
+    
     if (farStars.current) farStars.current.rotation.y += delta * 0.015;
     if (nearStars.current) {
       nearStars.current.rotation.y -= delta * 0.04;
@@ -176,24 +179,29 @@ const FixedBackground = () => {
     if (nebula.current) nebula.current.rotation.z += delta * 0.008;
   });
 
+  const getStarCount = (base) => tier === 'high' ? base : tier === 'mid' ? Math.floor(base * 0.5) : Math.floor(base * 0.2);
+  const getSparkleCount = (base) => tier === 'high' ? base : tier === 'mid' ? Math.floor(base * 0.5) : 0; // Disable sparkles on low-end entirely
+
   return (
     <group>
       <group ref={farStars}>
-        <Stars radius={150} depth={80} count={600} factor={2} saturation={0} fade speed={1} />
+        <Stars radius={150} depth={80} count={getStarCount(600)} factor={2} saturation={0} fade speed={prefersReducedMotion ? 0 : 1} />
       </group>
       <group ref={nearStars}>
-        <Stars radius={60} depth={30} count={200} factor={3} saturation={0.2} fade speed={3} />
+        <Stars radius={60} depth={30} count={getStarCount(200)} factor={3} saturation={0.2} fade speed={prefersReducedMotion ? 0 : 3} />
       </group>
-      <group ref={nebula}>
-        <Sparkles count={30} scale={20} size={3} speed={0.3} opacity={0.25} color="#6366f1" />
-        <Sparkles count={30} scale={18} size={2} speed={0.5} opacity={0.2} color="#14b8a6" position={[0, -8, -5]} />
-        <Sparkles count={30} scale={12} size={4} speed={0.2} opacity={0.15} color="#f43f5e" position={[0, -16, -3]} />
-      </group>
+      {tier !== 'low' && (
+        <group ref={nebula}>
+          <Sparkles count={getSparkleCount(30)} scale={20} size={3} speed={prefersReducedMotion ? 0 : 0.3} opacity={0.25} color="#6366f1" />
+          <Sparkles count={getSparkleCount(30)} scale={18} size={2} speed={prefersReducedMotion ? 0 : 0.5} opacity={0.2} color="#14b8a6" position={[0, -8, -5]} />
+          <Sparkles count={getSparkleCount(30)} scale={12} size={4} speed={prefersReducedMotion ? 0 : 0.2} opacity={0.15} color="#f43f5e" position={[0, -16, -3]} />
+        </group>
+      )}
     </group>
   );
 };
 
-const SceneElements = () => {
+const SceneElements = ({ tier, prefersReducedMotion }) => {
   const scroll = useScroll();
   const { viewport } = useThree();
   const isMobile = viewport.width < 5;
@@ -207,23 +215,26 @@ const SceneElements = () => {
     const offset = scroll.offset; // 0 to 1
     const elapsedTime = state.clock.elapsedTime;
     
-    // 1. AINode
-    if (aiNodeRef.current) {
-      aiNodeRef.current.rotation.x += 0.002;
-      aiNodeRef.current.rotation.y += 0.003;
-    }
+    // Only apply constant rotation if not reduced motion
+    if (!prefersReducedMotion) {
+      // 1. AINode
+      if (aiNodeRef.current) {
+        aiNodeRef.current.rotation.x += 0.002;
+        aiNodeRef.current.rotation.y += 0.003;
+      }
 
-    // 2. DatabaseShape
-    if (dbRef.current) {
-      dbRef.current.rotation.y = elapsedTime * 0.2;
-      dbRef.current.rotation.x = Math.sin(elapsedTime * 0.5) * 0.1;
-    }
+      // 2. DatabaseShape
+      if (dbRef.current) {
+        dbRef.current.rotation.y = elapsedTime * 0.2;
+        dbRef.current.rotation.x = Math.sin(elapsedTime * 0.5) * 0.1;
+      }
 
-    // 3. CodeBrackets
-    if (codeRef.current) {
-      codeRef.current.rotation.x += 0.002;
-      codeRef.current.rotation.y += 0.003;
-      codeRef.current.rotation.z += 0.001;
+      // 3. CodeBrackets
+      if (codeRef.current) {
+        codeRef.current.rotation.x += 0.002;
+        codeRef.current.rotation.y += 0.003;
+        codeRef.current.rotation.z += 0.001;
+      }
     }
 
     // Parallax logic (Mouse + Scroll)
@@ -231,8 +242,9 @@ const SceneElements = () => {
     const mouseY = state.pointer.y; 
 
     // Rotate group based on scroll and mouse X
-    const targetRotationY = (offset * Math.PI) + (mouseX * 0.15);
-    const targetRotationX = (mouseY * 0.15);
+    const parallaxFactor = (tier === 'low' || isMobile || prefersReducedMotion) ? 0.05 : 0.15;
+    const targetRotationY = (offset * Math.PI) + (mouseX * parallaxFactor);
+    const targetRotationX = (mouseY * parallaxFactor);
     
     if (groupRef.current) {
       groupRef.current.rotation.y += (targetRotationY - groupRef.current.rotation.y) * 0.05;
@@ -247,11 +259,11 @@ const SceneElements = () => {
   return (
     <group ref={groupRef} scale={isMobile ? 0.45 : 0.7} position={isMobile ? [0, 1, 0] : [0, 0, 0]}>
       <group ref={aiNodeRef} position={[4, 3, -1]}>
-        <AINode />
+        <AINode tier={tier} />
       </group>
 
       <group ref={dbRef} position={[-5, 0, -2]}>
-        <DatabaseShape />
+        <DatabaseShape tier={tier} />
       </group>
 
       <group ref={codeRef} position={[4, -3, -1]}>
@@ -440,7 +452,7 @@ const ContactForm = () => {
 // ==========================================
 // HTML Overlay Content
 // ==========================================
-const HTMLContent = () => {
+const HTMLContent = ({ tier, prefersReducedMotion }) => {
   return (
     <div className="w-screen flex flex-col text-white font-sans selection:bg-indigo-500/30">
       
@@ -452,24 +464,30 @@ const HTMLContent = () => {
           </div>
           
           <div className="w-full h-24 sm:h-32 md:h-48 mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-            <ParticleText
-              text="Mohamed SharShar;"
-              particleSize={2.2}
-              density={4}
-              color="#ffffff"
-              highlightColor="#6366f1"
-              scatter={190}
-              gatherDuration={1600}
-              stagger={420}
-              pointerRepel={42}
-              repelRadius={120}
-              idleDrift={0.8}
-              trigger="mount"
-              fontSize="clamp(1.2rem, 7vw, 7rem)"
+            {prefersReducedMotion || tier === 'low' ? (
+               <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold font-mono text-white text-center">
+                 Mohamed SharShar;
+               </h1>
+            ) : (
+              <ParticleText
+                text="Mohamed SharShar;"
+                particleSize={tier === 'high' ? 2.2 : 3}
+                density={tier === 'high' ? 4 : 8}
+                color="#ffffff"
+                highlightColor="#6366f1"
+                scatter={190}
+                gatherDuration={1600}
+                stagger={420}
+                pointerRepel={42}
+                repelRadius={120}
+                idleDrift={0.8}
+                trigger="mount"
+                fontSize="clamp(1.2rem, 7vw, 7rem)"
               fontWeight={900}
               fontFamily="inherit"
               glow={true}
             />
+            )}
           </div>
 
           <h2 className="text-xs md:text-sm font-mono tracking-[0.4em] text-teal-300 mb-8 uppercase">
@@ -758,30 +776,35 @@ const Navbar3D = () => {
 // ==============================================================
 export default function App() {
   const pages = 1 + 1 + 1 + PROJECTS.length + 1 + 1; // Hero + Exp + Skills + Projects + Certificates + Contact
+  
+  const { tier, prefersReducedMotion } = useDevicePerformance();
+
+  // Adapt Canvas DPR based on tier
+  const dpr = tier === 'high' ? [1, 1.5] : tier === 'mid' ? [0.75, 1] : [0.5, 0.75];
 
   return (
     <ClickSpark
       sparkColor="#ffffff"
       sparkSize={20}
       sparkRadius={15}
-      sparkCount={8}
+      sparkCount={tier === 'low' ? 0 : tier === 'mid' ? 4 : 8}
       duration={400}
     >
       <div className="w-screen h-screen bg-[#050505] overflow-hidden relative font-sans">
       <Navbar3D />
       
       <Suspense fallback={<div className="absolute inset-0 z-10 flex items-center justify-center font-mono text-teal-400 bg-[#050505] text-sm animate-pulse">Initializing System...</div>}>
-        <Canvas camera={{ position: [0, 0, 5], fov: 50 }} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
+        <Canvas camera={{ position: [0, 0, 5], fov: 50 }} dpr={dpr} performance={{ min: 0.5 }}>
           <color attach="background" args={['#050505']} />
           
-          <FixedBackground />
+          <FixedBackground tier={tier} prefersReducedMotion={prefersReducedMotion} />
 
           <ScrollControls pages={pages} damping={0.25} distance={1.2}>
             <AmbientColorShift />
-            <SceneElements />
+            <SceneElements tier={tier} prefersReducedMotion={prefersReducedMotion} />
             
             <Scroll html>
-              <HTMLContent />
+              <HTMLContent tier={tier} prefersReducedMotion={prefersReducedMotion} />
             </Scroll>
           </ScrollControls>
         </Canvas>
