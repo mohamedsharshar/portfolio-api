@@ -7,6 +7,8 @@ export default function ProjectCarousel({ projects, onProjectClick, prefersReduc
   
   const [radius, setRadius] = useState(0);
   const [currAngle, setCurrAngle] = useState(0);
+  const [cardWidth, setCardWidth] = useState(320);
+  const [cardHeight, setCardHeight] = useState(420);
   
   // Drag state
   const isDragging = useRef(false);
@@ -26,19 +28,27 @@ export default function ProjectCarousel({ projects, onProjectClick, prefersReduc
       if (numProjects === 0) return;
       const width = window.innerWidth;
       
-      let cardWidth = 320;
-      if (width < 640) cardWidth = 260;
-      else if (width < 1024) cardWidth = 280;
+      let newCardWidth = 320;
+      let newCardHeight = 420;
+      if (width < 640) {
+        newCardWidth = 260;
+        newCardHeight = 360;
+      } else if (width < 1024) {
+        newCardWidth = 280;
+        newCardHeight = 380;
+      }
 
       // radius = (cardWidth / 2) / Math.tan(Math.PI / numProjects) + gap
-      const gap = width < 640 ? 20 : 40;
-      let calcRadius = Math.round((cardWidth / 2) / Math.tan(Math.PI / numProjects)) + gap;
+      const gap = width < 640 ? 30 : 60; // Increased gap for better spacing
+      let calcRadius = Math.round((newCardWidth / 2) / Math.tan(Math.PI / numProjects)) + gap;
       
       // Prevent radius from being too small if there are very few projects
       if (numProjects < 3) {
-        calcRadius = cardWidth;
+        calcRadius = newCardWidth;
       }
       
+      setCardWidth(newCardWidth);
+      setCardHeight(newCardHeight);
       setRadius(calcRadius);
     };
 
@@ -143,6 +153,8 @@ export default function ProjectCarousel({ projects, onProjectClick, prefersReduc
                 key={project.id}
                 project={project}
                 onClick={handleCardClick}
+                width={cardWidth}
+                height={cardHeight}
                 style={{
                   transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
                 }}

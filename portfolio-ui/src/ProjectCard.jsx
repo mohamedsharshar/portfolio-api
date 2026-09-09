@@ -11,21 +11,21 @@ const iconMap = {
   TbRobot: <TbRobot className="w-16 h-16 opacity-30 group-hover:scale-110 transition-transform duration-500" />
 };
 
-export default function ProjectCard({ project, onClick, isActive, style }) {
+export default function ProjectCard({ project, onClick, isActive, style, width = 320, height = 420 }) {
   // Compute style scaling or opacity modifiers based on isActive state
+  // We use the independent CSS 'scale' property here which works alongside 'transform'
   const activeStyle = isActive
-    ? { opacity: 1, scale: 1, filter: 'blur(0px)', zIndex: 10 }
-    : { opacity: 0.6, scale: 0.9, filter: 'blur(1px)', zIndex: 0 };
+    ? { opacity: 1, scale: '1.15', filter: 'blur(0px)', zIndex: 10 }
+    : { opacity: 0.5, scale: '0.85', filter: 'blur(2px)', zIndex: 0 };
 
   return (
     <div 
       className="absolute cursor-pointer group will-change-transform"
       style={{
-        width: '100%',
-        maxWidth: '320px',
-        height: '420px',
-        left: 'calc(50% - 160px)',
-        top: 'calc(50% - 210px)',
+        width: `${width}px`,
+        height: `${height}px`,
+        left: `calc(50% - ${width / 2}px)`,
+        top: `calc(50% - ${height / 2}px)`,
         transition: 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)',
         // Prevent image dragging inside card
         WebkitUserDrag: 'none',
@@ -53,24 +53,24 @@ export default function ProjectCard({ project, onClick, isActive, style }) {
           )}
         </div>
         
-        <div className="p-5">
-          <p className="text-teal-400 font-mono text-[10px] tracking-widest uppercase mb-1">
+        <div className="p-6">
+          <p className="text-teal-400 font-mono text-xs tracking-widest uppercase mb-2 font-semibold">
             {project.categories?.[0] || 'Project'}
           </p>
-          <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors line-clamp-1">
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors line-clamp-1">
             {project.title}
           </h3>
-          <p className="text-gray-400 text-xs line-clamp-2 mb-3 font-light">
+          <p className="text-gray-300 text-sm leading-relaxed line-clamp-3 mb-4 font-light">
             {project.description}
           </p>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-2">
             {project.technologies?.slice(0, 3).map(tech => (
-              <span key={tech} className="text-[9px] px-2 py-0.5 bg-black/50 border border-gray-700 text-gray-300 rounded font-mono">
+              <span key={tech} className="text-xs px-2.5 py-1 bg-black/60 border border-gray-600 text-gray-200 rounded font-mono">
                 {tech}
               </span>
             ))}
             {project.technologies?.length > 3 && (
-              <span className="text-[9px] px-2 py-0.5 bg-black/50 border border-gray-700 text-gray-500 rounded font-mono">
+              <span className="text-xs px-2.5 py-1 bg-black/60 border border-gray-600 text-gray-400 rounded font-mono">
                 +{project.technologies.length - 3}
               </span>
             )}
