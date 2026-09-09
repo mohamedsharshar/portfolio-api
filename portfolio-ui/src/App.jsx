@@ -8,9 +8,9 @@ import Navbar3D from './Navbar3D';
 const DesktopCanvas = lazy(() => import('./DesktopCanvas'));
 
 // Lightweight wrapper for Mobile
-const MobileApp = ({ tier, prefersReducedMotion }) => (
+const MobileApp = ({ tier, prefersReducedMotion, isMobile }) => (
   <div id="main-scroll-container" className="w-screen h-screen bg-[#050505] overflow-y-auto overflow-x-hidden relative font-sans scroll-smooth">
-    <HTMLContent tier={tier} prefersReducedMotion={prefersReducedMotion} />
+    <HTMLContent tier={tier} prefersReducedMotion={prefersReducedMotion} isMobile={isMobile} />
   </div>
 );
 
@@ -38,7 +38,7 @@ export default function App() {
           {shouldUse3D ? (
             <DesktopCanvas tier={tier} prefersReducedMotion={prefersReducedMotion} pages={pages} />
           ) : (
-            <MobileApp tier={tier} prefersReducedMotion={prefersReducedMotion} />
+            <MobileApp tier={tier} prefersReducedMotion={prefersReducedMotion} isMobile={isMobile} />
           )}
         </Suspense>
       </div>

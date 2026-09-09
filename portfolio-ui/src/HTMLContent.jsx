@@ -229,7 +229,7 @@ const ContactForm = () => {
 // ==========================================
 // HTML Overlay Content
 // ==========================================
-export default function HTMLContent({ tier, prefersReducedMotion }) {
+export default function HTMLContent({ tier, prefersReducedMotion, isMobile }) {
   return (
     <div className="w-screen flex flex-col text-white font-sans selection:bg-indigo-500/30">
       
@@ -242,7 +242,7 @@ export default function HTMLContent({ tier, prefersReducedMotion }) {
           
           <div className="w-full h-24 sm:h-32 md:h-48 mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
             {prefersReducedMotion || tier === 'low' ? (
-               <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold font-mono text-white text-center">
+               <h1 className="text-3xl sm:text-6xl md:text-7xl font-bold font-mono text-white text-center">
                  Mohamed SharShar;
                </h1>
             ) : (
@@ -267,10 +267,10 @@ export default function HTMLContent({ tier, prefersReducedMotion }) {
             )}
           </div>
 
-          <h2 className="text-xs md:text-sm font-mono tracking-[0.4em] text-teal-300 mb-8 uppercase">
+          <h2 className="text-[10px] sm:text-xs md:text-sm font-mono tracking-widest sm:tracking-[0.4em] text-teal-300 mb-8 uppercase text-center w-full px-2">
             &lt; Laravel Backend Developer /&gt;
           </h2>
-          <p className="text-gray-300 text-base md:text-xl leading-relaxed max-w-3xl font-light border-l-2 border-indigo-500/50 pl-6 text-left bg-black/20 p-4 rounded-r-xl backdrop-blur-sm">
+          <p className="text-gray-300 text-sm sm:text-base md:text-xl leading-relaxed max-w-3xl font-light border-l-2 border-indigo-500/50 pl-4 sm:pl-6 text-left bg-black/20 p-4 rounded-r-xl backdrop-blur-sm">
             <span className="text-indigo-400 font-mono text-sm block mb-2">// PROFESSIONAL SUMMARY</span>
             A skilled full stack developer specializing in Laravel and PHP, with experience building HRMS, payroll, e-commerce, and SaaS platforms for real clients. Demonstrated abilities in system design, database optimization, and integrating AI-powered automation using n8n, AI agents, and RAG workflows. Recognized for problem-solving, clean architecture, and delivering reliable systems that support complex business needs. Also experienced with Docker and Oracle SQL.
           </p>
@@ -365,25 +365,25 @@ export default function HTMLContent({ tier, prefersReducedMotion }) {
         <GlowCard glowColor="59, 130, 246" className="w-full max-w-[95%] xl:max-w-[85rem] bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-14 lg:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 md:gap-16">
             {/* Left Info Side */}
-            <div className="flex flex-col justify-center text-left min-w-0">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 drop-shadow-lg break-all">
+            <div className="flex flex-col justify-center text-left min-w-0 w-full">
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 drop-shadow-lg break-words">
                 Initialize.Contact()
               </h2>
-              <p className="text-gray-400 text-sm md:text-base lg:text-lg mb-8 font-mono leading-relaxed">
+              <p className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg mb-8 font-mono leading-relaxed">
                 &gt; Open to collaboration, freelance work, and full-time opportunities. <br/> 
                 &gt; Whether you have a project in mind or just want to talk code — my terminal is ready. <span className="animate-pulse text-indigo-400">_</span>
               </p>
               
-              <div className="flex flex-col gap-4 mt-auto">
-                <a href="mailto:mohamedsharshar624@gmail.com" className="flex items-center justify-center gap-3 px-6 py-4 bg-indigo-600/20 hover:bg-indigo-600/40 border border-indigo-500/50 rounded-xl font-mono text-sm font-bold text-white transition-all shadow-[0_0_15px_rgba(79,70,229,0.2)] hover:shadow-[0_0_25px_rgba(79,70,229,0.4)]">
+              <div className="flex flex-col gap-3 sm:gap-4 mt-auto">
+                <a href="mailto:mohamedsharshar624@gmail.com" className="flex items-center justify-center gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-indigo-600/20 hover:bg-indigo-600/40 border border-indigo-500/50 rounded-xl font-mono text-sm font-bold text-white transition-all shadow-[0_0_15px_rgba(79,70,229,0.2)] hover:shadow-[0_0_25px_rgba(79,70,229,0.4)]">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                   execute(Email)
                 </a>
-                <div className="flex gap-4">
-                  <a href="https://github.com/mohamedsharshaar" target="_blank" rel="noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-800/50 hover:bg-gray-700/80 border border-gray-600 rounded-xl font-mono text-xs font-bold text-white transition-all hover:scale-105">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                  <a href="https://github.com/mohamedsharshaar" target="_blank" rel="noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-800/50 hover:bg-gray-700/80 border border-gray-600 rounded-xl font-mono text-[10px] sm:text-xs font-bold text-white transition-all hover:scale-105">
                     GitHub.Repo
                   </a>
-                  <a href="https://linkedin.com/in/mohamedsharshaar" target="_blank" rel="noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#0a66c2]/20 hover:bg-[#0a66c2]/40 border border-[#0a66c2]/50 rounded-xl font-mono text-xs font-bold text-white transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(10,102,194,0.3)]">
+                  <a href="https://linkedin.com/in/mohamedsharshaar" target="_blank" rel="noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#0a66c2]/20 hover:bg-[#0a66c2]/40 border border-[#0a66c2]/50 rounded-xl font-mono text-[10px] sm:text-xs font-bold text-white transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(10,102,194,0.3)]">
                     LinkedIn.Connect()
                   </a>
                 </div>

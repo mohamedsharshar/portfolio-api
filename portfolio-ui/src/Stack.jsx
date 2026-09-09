@@ -136,9 +136,9 @@ export default function Stack({
                 }
               }}
               animate={{
-                rotateZ: (stack.length - index - 1) * 4 + randomRotate,
-                scale: 1 + index * 0.06 - stack.length * 0.06,
-                transformOrigin: '90% 90%'
+                rotateZ: Math.min((stack.length - index - 1) * 4, 12) + randomRotate,
+                scale: 1 - Math.min((stack.length - index - 1) * 0.06, 0.2),
+                transformOrigin: '50% 80%'
               }}
               initial={false}
               transition={{
