@@ -28,14 +28,14 @@ export default function ProjectCarousel({ projects, onProjectClick, prefersReduc
       if (numProjects === 0) return;
       const width = window.innerWidth;
       
-      let newCardWidth = 380;
-      let newCardHeight = 500;
+      let newCardWidth = 440;
+      let newCardHeight = 560;
       if (width < 640) {
-        newCardWidth = 300;
-        newCardHeight = 420;
-      } else if (width < 1024) {
-        newCardWidth = 340;
+        newCardWidth = 320;
         newCardHeight = 460;
+      } else if (width < 1024) {
+        newCardWidth = 380;
+        newCardHeight = 510;
       }
 
       // radius = (cardWidth / 2) / Math.tan(Math.PI / numProjects) + gap

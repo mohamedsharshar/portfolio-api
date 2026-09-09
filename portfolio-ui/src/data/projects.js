@@ -85,7 +85,7 @@ export const projects = [
     github: null,
     demoLink: "https://masarat-platform.fly.dev",
     featured: false,
-    image: null,
+    image: "/masarat.png",
     visualColor: "from-cyan-500 to-blue-500",
     iconName: "TbMessages"
   },

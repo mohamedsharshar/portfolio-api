@@ -38,8 +38,8 @@ export default function ProjectCard({ project, onClick, isActive, style, width =
         if (e.key === 'Enter' || e.key === ' ') onClick(project);
       }}
     >
-      <GlowCard glowColor="99, 102, 241" className="h-full bg-gray-900/60 backdrop-blur-md border border-gray-700/50 rounded-2xl overflow-hidden transition-all duration-300">
-        <div className={`h-44 w-full relative overflow-hidden ${project.image ? 'bg-gray-900' : `bg-gradient-to-br ${project.visualColor}`} flex items-center justify-center`}>
+      <GlowCard glowColor="99, 102, 241" className="h-full bg-[#0d0d0d] border border-gray-700/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col">
+        <div className={`h-52 w-full relative overflow-hidden ${project.image ? 'bg-gray-900' : `bg-gradient-to-br ${project.visualColor}`} flex items-center justify-center shrink-0`}>
           <div className={`absolute inset-0 ${project.image ? '' : 'bg-black/30 group-hover:bg-transparent'} transition-colors duration-300`}></div>
           {project.image ? (
             <img src={project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -53,14 +53,14 @@ export default function ProjectCard({ project, onClick, isActive, style, width =
           )}
         </div>
         
-        <div className="p-6">
+        <div className="p-6 flex flex-col flex-1">
           <p className="text-teal-400 font-mono text-xs tracking-widest uppercase mb-2 font-semibold">
             {project.categories?.[0] || 'Project'}
           </p>
           <h3 className="text-xl md:text-2xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors line-clamp-1">
             {project.title}
           </h3>
-          <p className="text-gray-300 text-sm leading-relaxed line-clamp-3 mb-4 font-light">
+          <p className="text-gray-300 text-sm leading-relaxed line-clamp-3 mb-4 font-light flex-1">
             {project.description}
           </p>
           <div className="flex flex-wrap gap-2">
