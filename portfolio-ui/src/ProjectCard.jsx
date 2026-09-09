@@ -39,10 +39,10 @@ export default function ProjectCard({ project, onClick, isActive, style, width =
       }}
     >
       <GlowCard glowColor="99, 102, 241" className="h-full bg-gray-900/60 backdrop-blur-md border border-gray-700/50 rounded-2xl overflow-hidden transition-all duration-300">
-        <div className={`h-40 w-full relative overflow-hidden bg-gradient-to-br ${project.visualColor} flex items-center justify-center`}>
-          <div className="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-colors duration-300"></div>
+        <div className={`h-44 w-full relative overflow-hidden ${project.image ? 'bg-gray-900' : `bg-gradient-to-br ${project.visualColor}`} flex items-center justify-center`}>
+          <div className={`absolute inset-0 ${project.image ? '' : 'bg-black/30 group-hover:bg-transparent'} transition-colors duration-300`}></div>
           {project.image ? (
-            <img src={project.image} alt={project.title} className="w-full h-full object-cover opacity-80 mix-blend-overlay group-hover:opacity-100 transition-opacity" />
+            <img src={project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
             iconMap[project.iconName] || <TbCode className="w-16 h-16 opacity-30 group-hover:scale-110 transition-transform duration-500" />
           )}

@@ -36,9 +36,9 @@ export default function ProjectModal({ project, onClose }) {
         aria-labelledby="modal-title"
       >
         {/* Modal Header Visual */}
-        <div className={`w-full h-48 md:h-64 relative bg-gradient-to-br ${project.visualColor} flex items-center justify-center shrink-0 overflow-hidden`}>
+        <div className={`w-full h-48 md:h-64 relative ${project.image ? 'bg-gray-900' : `bg-gradient-to-br ${project.visualColor}`} flex items-center justify-center shrink-0 overflow-hidden`}>
           {project.image ? (
-            <img src={project.image} alt={project.title} className="w-full h-full object-cover opacity-80 mix-blend-overlay" />
+            <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
           ) : (
             iconMap[project.iconName] || <TbCode className="w-24 h-24 opacity-30" />
           )}

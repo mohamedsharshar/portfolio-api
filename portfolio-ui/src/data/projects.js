@@ -41,7 +41,7 @@ export const projects = [
     github: null,
     demoLink: "https://fsoal.sys-web.net",
     featured: true,
-    image: null,
+    image: "/fsoal.png",
     visualColor: "from-purple-500 to-pink-600",
     iconName: "TbBulb"
   },
@@ -107,7 +107,7 @@ export const projects = [
     github: null,
     demoLink: "https://anany.eg",
     featured: false,
-    image: null,
+    image: "/anany.png",
     visualColor: "from-amber-500 to-orange-600",
     iconName: "TbApi"
   },
@@ -130,7 +130,7 @@ export const projects = [
     github: null,
     demoLink: "https://afaq-stores.com",
     featured: false,
-    image: null,
+    image: "/afaq.png",
     visualColor: "from-rose-500 to-red-600",
     iconName: "TbRobot"
   }

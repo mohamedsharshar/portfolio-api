@@ -28,14 +28,14 @@ export default function ProjectCarousel({ projects, onProjectClick, prefersReduc
       if (numProjects === 0) return;
       const width = window.innerWidth;
       
-      let newCardWidth = 320;
-      let newCardHeight = 420;
+      let newCardWidth = 380;
+      let newCardHeight = 500;
       if (width < 640) {
-        newCardWidth = 260;
-        newCardHeight = 360;
+        newCardWidth = 300;
+        newCardHeight = 420;
       } else if (width < 1024) {
-        newCardWidth = 280;
-        newCardHeight = 380;
+        newCardWidth = 340;
+        newCardHeight = 460;
       }
 
       // radius = (cardWidth / 2) / Math.tan(Math.PI / numProjects) + gap
@@ -128,7 +128,7 @@ export default function ProjectCarousel({ projects, onProjectClick, prefersReduc
   if (numProjects === 0) return null;
 
   return (
-    <div className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden touch-none" ref={containerRef}>
+    <div className="relative w-full h-[65vh] md:h-[80vh] flex items-center justify-center overflow-hidden touch-none" ref={containerRef}>
       
       {/* 3D Scene Container */}
       <div 

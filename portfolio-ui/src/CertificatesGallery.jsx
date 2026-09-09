@@ -44,11 +44,11 @@ export default function CertificatesGallery() {
   ));
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden">
+    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-visible">
       {/* Background glow effect */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.15)_0%,transparent_70%)] pointer-events-none" />
 
-      <div className="text-center z-50 pointer-events-none mb-16 md:mb-20">
+      <div className="text-center z-50 pointer-events-none mb-10 md:mb-14">
         <h2 className="text-3xl md:text-6xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-500 drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]">
           &lt;Certifications /&gt;
         </h2>
