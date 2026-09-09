@@ -79,14 +79,14 @@ const SKILLS = [
 
 const EXPERIENCES = [
   {
-    title: 'Backend Developer',
-    company: 'Horizon IT – Satellite Services',
-    period: 'Nov 2025 – Present',
+    title: 'Full Stack Developer (Laravel)',
+    company: 'Horizon IT – Satellite Services | Egypt',
+    period: 'Nov 2025 – Sep 2026',
     desc: 'Building smart digital solutions for GIS, satellite services, and remote sensing projects using modern web technologies.'
   },
   {
-    title: 'Backend Developer',
-    company: 'PureSoft',
+    title: 'Full Stack Developer (Laravel)',
+    company: 'PureSoft | Egypt',
     period: 'Jul 2025 – Dec 2025',
     desc: 'Designed and developed websites, mobile applications, and custom business systems, including POS solutions, for clients across various industries.'
   }
