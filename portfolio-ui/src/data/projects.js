@@ -18,6 +18,7 @@ export const projects = [
     github: null,
     demoLink: null,
     featured: true,
+    image: null,
     visualColor: "from-blue-500 to-indigo-600",
     iconName: "TbUsers"
   },
@@ -40,6 +41,7 @@ export const projects = [
     github: null,
     demoLink: "https://fsoal.sys-web.net",
     featured: true,
+    image: null,
     visualColor: "from-purple-500 to-pink-600",
     iconName: "TbBulb"
   },
@@ -62,6 +64,7 @@ export const projects = [
     github: null,
     demoLink: null,
     featured: true,
+    image: null,
     visualColor: "from-teal-400 to-emerald-600",
     iconName: "TbBrain"
   },
@@ -82,6 +85,7 @@ export const projects = [
     github: null,
     demoLink: "https://masarat-platform.fly.dev",
     featured: false,
+    image: null,
     visualColor: "from-cyan-500 to-blue-500",
     iconName: "TbMessages"
   },
@@ -103,6 +107,7 @@ export const projects = [
     github: null,
     demoLink: "https://anany.eg",
     featured: false,
+    image: null,
     visualColor: "from-amber-500 to-orange-600",
     iconName: "TbApi"
   },
@@ -125,6 +130,7 @@ export const projects = [
     github: null,
     demoLink: "https://afaq-stores.com",
     featured: false,
+    image: null,
     visualColor: "from-rose-500 to-red-600",
     iconName: "TbRobot"
   }
