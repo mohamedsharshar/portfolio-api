@@ -217,7 +217,7 @@ const ContactForm = () => {
       <button 
         type="submit" 
         disabled={status.loading}
-        className="mt-2 w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-mono font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-1 flex justify-center items-center gap-2"
+        className="mt-2 w-full px-4 md:px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-mono font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-1 flex justify-center items-center gap-2"
       >
         <span>await</span> {status.loading ? 'sending...' : 'sendMessage()'}
         {!status.loading && <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>}
@@ -234,16 +234,17 @@ export default function HTMLContent({ tier, prefersReducedMotion, isMobile }) {
     <div className="w-screen flex flex-col text-white font-sans selection:bg-indigo-500/30">
       
       {/* 1. Hero Section */}
-      <section id="hero" className="min-h-screen w-full flex flex-col items-center justify-center px-6 pt-10 pb-20 relative">
+      <section id="hero" className="min-h-screen w-full flex flex-col items-center justify-center px-4 md:px-6 pt-10 pb-20 relative">
         <div className="max-w-4xl mx-auto text-center flex flex-col items-center justify-center drop-shadow-2xl z-10">
           <div className="font-mono text-indigo-400 mb-4 tracking-widest text-sm">
             <span className="text-teal-400">const</span> <span className="text-white">developer</span> = 
           </div>
           
-          <div className="w-full h-24 sm:h-32 md:h-48 mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-            {prefersReducedMotion || tier === 'low' ? (
-               <h1 className="text-3xl sm:text-6xl md:text-7xl font-bold font-mono text-white text-center">
-                 Mohamed SharShar;
+          <div className="w-full h-auto min-h-[6rem] sm:h-32 md:h-48 mb-4 flex items-center justify-center drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+            {prefersReducedMotion || tier === 'low' || isMobile ? (
+               <h1 className="text-4xl min-[400px]:text-5xl sm:text-6xl md:text-7xl font-bold font-mono text-white text-center leading-tight">
+                 <span className="block sm:inline">Mohamed </span>
+                 <span className="block sm:inline">SharShar;</span>
                </h1>
             ) : (
               <ParticleText
@@ -278,9 +279,9 @@ export default function HTMLContent({ tier, prefersReducedMotion, isMobile }) {
           <a 
             href="/Mohamed_SharShar.pdf" 
             download 
-            className="mt-10 px-8 py-4 bg-indigo-600/20 border border-indigo-500/50 backdrop-blur-md rounded-lg font-mono text-white text-sm hover:bg-indigo-600/40 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] flex items-center gap-3 group"
+            className="mt-10 px-4 sm:px-8 py-3 sm:py-4 bg-indigo-600/20 border border-indigo-500/50 backdrop-blur-md rounded-lg font-mono text-white text-[11px] sm:text-sm hover:bg-indigo-600/40 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] flex items-center gap-2 sm:gap-3 group"
           >
-            <svg className="w-5 h-5 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
             execute_download("CV.pdf")
           </a>
 
@@ -292,8 +293,8 @@ export default function HTMLContent({ tier, prefersReducedMotion, isMobile }) {
       </section>
 
       {/* 2. Experience Section */}
-      <section id="experience" className="min-h-screen w-full flex items-center justify-start px-6 md:px-32 py-20">
-        <GlowCard glowColor="99, 102, 241" className="max-w-2xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
+      <section id="experience" className="min-h-screen w-full flex items-center justify-start px-4 md:px-32 py-20">
+        <GlowCard glowColor="99, 102, 241" className="max-w-2xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-4 sm:p-6 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
           <h2 className="text-3xl md:text-4xl font-bold mb-10 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
             class <span className="text-white">Experience</span> {'{'}
           </h2>
@@ -315,8 +316,8 @@ export default function HTMLContent({ tier, prefersReducedMotion, isMobile }) {
       </section>
 
       {/* 3. Skills & Languages Section */}
-      <section id="skills" className="min-h-screen w-full flex flex-col justify-center items-end px-6 md:px-32 py-20">
-        <GlowCard glowColor="20, 184, 166" className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
+      <section id="skills" className="min-h-screen w-full flex flex-col justify-center items-end px-4 md:px-32 py-20">
+        <GlowCard glowColor="20, 184, 166" className="max-w-3xl bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-4 sm:p-6 md:p-10 rounded-2xl shadow-2xl transition-transform hover:-translate-y-2 duration-300">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 font-mono text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-500 text-right">
             &lt;CoreSkills /&gt;
           </h2>
@@ -362,11 +363,11 @@ export default function HTMLContent({ tier, prefersReducedMotion, isMobile }) {
 
       {/* 5. Contact Section */}
       <section id="contact" className="min-h-screen w-full flex flex-col items-center justify-center px-4 md:px-8 py-20 pb-32">
-        <GlowCard glowColor="59, 130, 246" className="w-full max-w-[95%] xl:max-w-[85rem] bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-6 md:p-14 lg:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
+        <GlowCard glowColor="59, 130, 246" className="w-full max-w-[95%] xl:max-w-[85rem] bg-gray-900/40 backdrop-blur-xl border border-gray-700 p-4 sm:p-6 md:p-14 lg:p-16 rounded-3xl shadow-2xl border-t-4 border-t-blue-500">
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 md:gap-16">
             {/* Left Info Side */}
             <div className="flex flex-col justify-center text-left min-w-0 w-full">
-              <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 drop-shadow-lg break-words">
+              <h2 className="text-2xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 drop-shadow-lg break-words">
                 Initialize.Contact()
               </h2>
               <p className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg mb-8 font-mono leading-relaxed">
@@ -375,7 +376,7 @@ export default function HTMLContent({ tier, prefersReducedMotion, isMobile }) {
               </p>
               
               <div className="flex flex-col gap-3 sm:gap-4 mt-auto">
-                <a href="mailto:mohamedsharshar624@gmail.com" className="flex items-center justify-center gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-indigo-600/20 hover:bg-indigo-600/40 border border-indigo-500/50 rounded-xl font-mono text-sm font-bold text-white transition-all shadow-[0_0_15px_rgba(79,70,229,0.2)] hover:shadow-[0_0_25px_rgba(79,70,229,0.4)]">
+                <a href="mailto:mohamedsharshar624@gmail.com" className="flex items-center justify-center gap-3 px-4 sm:px-4 md:px-6 py-3 sm:py-4 bg-indigo-600/20 hover:bg-indigo-600/40 border border-indigo-500/50 rounded-xl font-mono text-sm font-bold text-white transition-all shadow-[0_0_15px_rgba(79,70,229,0.2)] hover:shadow-[0_0_25px_rgba(79,70,229,0.4)]">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                   execute(Email)
                 </a>
@@ -391,7 +392,7 @@ export default function HTMLContent({ tier, prefersReducedMotion, isMobile }) {
             </div>
 
             {/* Right Form Side */}
-            <div className="bg-black/50 p-6 md:p-8 rounded-2xl border border-gray-800 shadow-inner backdrop-blur-sm relative group">
+            <div className="bg-black/50 p-4 sm:p-6 md:p-8 rounded-2xl border border-gray-800 shadow-inner backdrop-blur-sm relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
               <ContactForm />
             </div>

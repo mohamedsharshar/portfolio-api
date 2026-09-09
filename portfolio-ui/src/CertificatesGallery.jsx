@@ -48,16 +48,16 @@ export default function CertificatesGallery() {
       {/* Background glow effect */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.15)_0%,transparent_70%)] pointer-events-none" />
 
-      <div className="absolute top-16 md:top-24 text-center z-50 pointer-events-none">
-        <h2 className="text-4xl md:text-6xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-500 drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]">
+      <div className="text-center z-50 pointer-events-none mb-16 md:mb-20">
+        <h2 className="text-3xl md:text-6xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-500 drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]">
           &lt;Certifications /&gt;
         </h2>
-        <p className="text-gray-400 mt-2 font-mono text-sm md:text-base animate-pulse">
+        <p className="text-gray-400 mt-2 font-mono text-xs md:text-base animate-pulse">
           /* Drag to flip, click to view */
         </p>
       </div>
 
-      <div className="relative mt-16 w-[280px] h-[200px] md:w-[450px] md:h-[320px] z-40">
+      <div className="relative w-[280px] h-[200px] md:w-[450px] md:h-[320px] z-40">
         <Stack
           randomRotation={true}
           sensitivity={150}

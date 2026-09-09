@@ -21,7 +21,7 @@ export default function ProjectShowcase() {
 
 
   return (
-    <section className="min-h-screen w-full py-24 px-6 md:px-20 lg:px-32 flex flex-col justify-start relative z-10" id="projects-showcase">
+    <section className="min-h-screen w-full py-24 px-4 md:px-20 lg:px-32 flex flex-col justify-start relative z-10" id="projects-showcase">
       <div className="max-w-7xl mx-auto w-full">
         {/* Header */}
         <div className="mb-12">
