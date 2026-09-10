@@ -64,7 +64,7 @@ export const projects = [
     github: null,
     demoLink: null,
     featured: true,
-    image: null,
+    image: "/arab_seed.png",
     visualColor: "from-teal-400 to-emerald-600",
     iconName: "TbBrain"
   },
