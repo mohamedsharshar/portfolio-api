@@ -18,7 +18,7 @@ export const projects = [
     github: null,
     demoLink: null,
     featured: true,
-    image: null,
+    image: "/corewise.png",
     visualColor: "from-blue-500 to-indigo-600",
     iconName: "TbUsers"
   },
